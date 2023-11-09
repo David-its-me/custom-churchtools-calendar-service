@@ -1,0 +1,7 @@
+docker build -t <tag> .
+docker run -p 80:80 <tag>
+
+            -p 80:80 open a Port, to make the container accessible
+            -d --name <name> -> run container in the background
+
+docker rmi --force $(docker images -qa -f 'dangling=true')
