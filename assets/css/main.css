@@ -1,90 +1,90 @@
 @font-face {
     font-family: Source Sans Pro;
-    src: url(/typo3conf/ext/site_luho/Resources/Public/Fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf);
+    src: url(https://www.luho.de/typo3conf/ext/site_luho/Resources/Public/Fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf);
     font-weight: 400;
     font-style: normal
 }
 
 @font-face {
     font-family: Source Sans Pro;
-    src: url(/typo3conf/ext/site_luho/Resources/Public/Fonts/Source_Sans_Pro/SourceSansPro-Bold.ttf);
+    src: url(https://www.luho.de/typo3conf/ext/site_luho/Resources/Public/Fonts/Source_Sans_Pro/SourceSansPro-Bold.ttf);
     font-weight: 800;
     font-style: normal
 }
 
 @font-face {
     font-family: Source Sans Pro;
-    src: url(/typo3conf/ext/site_luho/Resources/Public/Fonts/Source_Sans_Pro/SourceSansPro-Light.ttf);
+    src: url(https://www.luho.de/typo3conf/ext/site_luho/Resources/Public/Fonts/Source_Sans_Pro/SourceSansPro-Light.ttf);
     font-weight: 200;
     font-style: normal
 }
 
 @font-face {
     font-family: Source Sans Pro;
-    src: url(/typo3conf/ext/site_luho/Resources/Public/Fonts/Source_Sans_Pro/SourceSansPro-LightItalic.ttf);
+    src: url(https://www.luho.de/typo3conf/ext/site_luho/Resources/Public/Fonts/Source_Sans_Pro/SourceSansPro-LightItalic.ttf);
     font-weight: 200;
     font-style: italic
 }
 
 @font-face {
     font-family: Source Sans Pro;
-    src: url(/typo3conf/ext/site_luho/Resources/Public/Fonts/Source_Sans_Pro/SourceSansPro-BoldItalic.ttf);
+    src: url(https://www.luho.de/typo3conf/ext/site_luho/Resources/Public/Fonts/Source_Sans_Pro/SourceSansPro-BoldItalic.ttf);
     font-weight: 800;
     font-style: italic
 }
 
 @font-face {
     font-family: Source Sans Pro;
-    src: url(/typo3conf/ext/site_luho/Resources/Public/Fonts/Source_Sans_Pro/SourceSansPro-Italic.ttf);
+    src: url(https://www.luho.de/typo3conf/ext/site_luho/Resources/Public/Fonts/Source_Sans_Pro/SourceSansPro-Italic.ttf);
     font-weight: 400;
     font-style: italic
 }
 
 @font-face {
     font-family: Liberation Sans;
-    src: url(/typo3conf/ext/site_luho/Resources/Public/Fonts/LiberationSans-Regular-webfont.woff);
+    src: url(https://www.luho.de/typo3conf/ext/site_luho/Resources/Public/Fonts/LiberationSans-Regular-webfont.woff);
     font-weight: 400;
     font-style: normal
 }
 
 @font-face {
     font-family: Liberation Sans;
-    src: url(/typo3conf/ext/site_luho/Resources/Public/Fonts/LiberationSans-BoldItalic-webfont.woff);
+    src: url(https://www.luho.de/typo3conf/ext/site_luho/Resources/Public/Fonts/LiberationSans-BoldItalic-webfont.woff);
     font-weight: 700;
     font-style: italic
 }
 
 @font-face {
     font-family: Liberation Sans;
-    src: url(/typo3conf/ext/site_luho/Resources/Public/Fonts/LiberationSans-Italic-webfont.woff);
+    src: url(https://www.luho.de/typo3conf/ext/site_luho/Resources/Public/Fonts/LiberationSans-Italic-webfont.woff);
     font-weight: 400;
     font-style: italic
 }
 
 @font-face {
     font-family: Liberation Sans;
-    src: url(/typo3conf/ext/site_luho/Resources/Public/Fonts/LiberationSans-Bold-webfont.woff);
+    src: url(https://www.luho.de/typo3conf/ext/site_luho/Resources/Public/Fonts/LiberationSans-Bold-webfont.woff);
     font-weight: 700;
     font-style: normal
 }
 
 @font-face {
     font-family: HW Veneto;
-    src: url(/typo3conf/ext/site_luho/Resources/Public/Fonts/VENETO.woff) format("woff");
+    src: url(https://www.luho.de/typo3conf/ext/site_luho/Resources/Public/Fonts/VENETO.woff) format("woff");
     font-style: normal;
     font-weight: 400
 }
 
 @font-face {
     font-family: Raleway;
-    src: url(/typo3conf/ext/site_luho/Resources/Public/Fonts/raleway/Raleway-Regular.ttf);
+    src: url(https://www.luho.de/typo3conf/ext/site_luho/Resources/Public/Fonts/raleway/Raleway-Regular.ttf);
     font-weight: 400;
     font-style: normal
 }
 
 @font-face {
     font-family: Raleway;
-    src: url(/typo3conf/ext/site_luho/Resources/Public/Fonts/raleway/Raleway-Bold.ttf);
+    src: url(https://www.luho.de/typo3conf/ext/site_luho/Resources/Public/Fonts/raleway/Raleway-Bold.ttf);
     font-weight: 700;
     font-syle: normal
 }
@@ -94,7 +94,7 @@
     font-style: normal;
     font-weight: 400;
     font-stretch: 100;
-    src: url(/typo3conf/ext/site_luho/Resources/Public/Fonts/give-you-glory-v10-latin/give-you-glory-v10-latin-regular.eot);
+    src: url(https://www.luho.de/typo3conf/ext/site_luho/Resources/Public/Fonts/give-you-glory-v10-latin/give-you-glory-v10-latin-regular.eot);
     src: local("Give You Glory"), local("GiveYouGlory"), url(/typo3conf/ext/site_luho/Resources/Public/Fonts/give-you-glory-v10-latin/give-you-glory-v10-latin-regular.eot?#iefix) format("embedded-opentype"), url(/typo3conf/ext/site_luho/Resources/Public/Fonts/give-you-glory-v10-latin/give-you-glory-v10-latin-regular.woff2) format("woff2"), url(/typo3conf/ext/site_luho/Resources/Public/Fonts/give-you-glory-v10-latin/give-you-glory-v10-latin-regular.woff) format("woff"), url(/typo3conf/ext/site_luho/Resources/Public/Fonts/give-you-glory-v10-latin/give-you-glory-v10-latin-regular.ttf) format("truetype"), url(/typo3conf/ext/site_luho/Resources/Public/Fonts/give-you-glory-v10-latin/give-you-glory-v10-latin-regular.svg#GiveYouGlory) format("svg")
 }
 
@@ -110,13 +110,12 @@ body {
 }
 
 h1 {
-    font-size: 38px;
+    font-size: 108px;
     margin: 30px 0;
     text-transform: uppercase
 }
 
-h1,
-h2 {
+h1, h2 {
     font-weight: 400;
     color: #0560ab;
     -webkit-hyphens: auto;
@@ -125,17 +124,16 @@ h2 {
 }
 
 h2 {
-    font-size: 26px;
-    margin: 20px 0
+    font-size: 52px;
+    margin: 40px 0
 }
 
 h3 {
-    font-size: 24px;
+    font-size: 48px;
     color: #cea01a
 }
 
-h3,
-h4 {
+h3, h4 {
     font-weight: 400;
     -webkit-hyphens: auto;
     -ms-hyphens: auto;
@@ -143,15 +141,14 @@ h4 {
 }
 
 h4 {
-    font-size: 18px
+    font-size: 36px
 }
 
 h5 {
-    font-size: 14px
+    font-size: 28px
 }
 
-h5,
-h6 {
+h5, h6 {
     font-weight: 400;
     -webkit-hyphens: auto;
     -ms-hyphens: auto;
@@ -159,13 +156,13 @@ h6 {
 }
 
 h6 {
-    font-size: 12px
+    font-size: 24px
 }
 
 li, p, span {
-    font-size: 20px;
-    line-height: 1.3;
-    max-width: 850px;
+    font-size: 50px;
+    line-height: 1.2;
+    max-width: 1200px;
 }
 
 p {
@@ -306,86 +303,29 @@ figure {
     }
 }
 
-.luho_menu {
-    display: none;
-    box-sizing: border-box;
+
+.luho_contentElement {
     width: 100%;
-    margin: 0;
-    justify-content: flex-end;
-    background-color: #fff;
-    position: relative
-}
-
-.luho_menu__list {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    width: 100%
-}
-
-.luho_menu__item {
-    background-color: #fff;
+    margin: 0px 128px;
+    padding: 0 0px;
     display: flex;
     flex-direction: column;
-    padding: 10px 20px;
-    border-bottom: 1px solid #eaeaea;
-    transition: color .3s;
-    color: #000;
-    text-transform: uppercase
 }
 
-.luho_menu__item:first-child {
-    margin-top: 12px
+.luho_contentElement__header {
+    padding: 0px 0px;
+    color: #0560ab;
+    text-transform: uppercase;
+    margin-bottom: 20px;
 }
 
-@media screen and (min-width:1200px) {
-    .luho_menu__item {
-        font-size: 20px
-    }
-}
-
-.luho_menu__item:hover {
-    color: #0560ab
-}
-
-@media screen and (min-width:1024px) {
-    .luho_menu__item:hover .luho_menu__secondLevelWrap {
-        display: block
-    }
-}
-
-.luho_menu__link {
-    color: #000
-}
-
-.luho_menu__link:hover {
-    color: #0560ab
-}
-
-.luho_menu__label {
-    color: #000
-}
-
-.luho_menu__label--active {
-    color: #0560ab
-}
-
-.luho_menu__secondLevelWrap {
-    display: none;
-    background-color: #fff;
-    margin-left: -20px;
-    padding: 20px 0 0;
-    height: 100%
-}
-
-.luho_menu__levelBackLabel {
-    border-top:3p… .luho_contentElement {
-        width: 100%;
-        margin: 50px auto;
-        padding: 0 20px;
-        display: flex;
-        flex-direction: column;
-    }
+.luho_contentElement__header:after {
+    width: 200px;
+    margin: 15px 0 0 -60px;
+    content: "";
+    display: block;
+    height: 7px;
+    background-color: #0560ab;
 }
 
 .luho_event {
@@ -400,15 +340,25 @@ figure {
 }
 
 .luho_event__date {
-    height: 80px;
-    width: 80px;
-    margin-right: 20px;
+    height: 180px;
+    width: 180px;
+    margin-right: 40px;
     background-color: #b6b3bd;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+}
+
+.luho_event__day {
+    margin-bottom: 0;
+    color: #fff;
+}
+
+.luho_event__month {
+    text-transform: uppercase;
+    margin-top: 0;
 }
 
 .luho_event__content {
@@ -421,33 +371,11 @@ figure {
     width: 70%;
     content: "";
     display: block;
-    border-bottom: 2px solid #cea01a;
+    border-bottom: 7px solid #cea01a;
     margin-top: 3px;
 }
 
-.luho_contentElement {
-    width: 100%;
-    margin: 50px auto;
-    padding: 0 20px;
-    display: flex;
-    flex-direction: column;
-}
 
-.luho_contentElement__header {
-    padding: 40px 0 0 20px;
-    color: #0560ab;
-    text-transform: uppercase;
-    margin-bottom: 40px;
-}
-
-.luho_contentElement__header:after {
-    width: 80px;
-    margin: 2px 0 0 -20px;
-    content: "";
-    display: block;
-    height: 2px;
-    background-color: #0560ab;
-}
 
 .luho_grid, .luho_grid__row {
     width: 100%;
@@ -467,7 +395,7 @@ figure {
 .luho_grid__col {
     display: flex;
     flex-direction: column;
-    padding: 0;
+    padding: 0px 100px;
     width: 100%;
     max-width: 100%;
     flex: 1 0 100%;
@@ -477,42 +405,36 @@ figure {
 
 
 
-.luho_event__day {
-    margin-bottom: 0;
-    color: #fff;
-}
 
-.luho_event__month {
-    text-transform: uppercase;
-    margin-bottom: 0;
-}
 
 .luho_event__title {
     text-transform: uppercase;
-    font-size: 24px;
+    font-size: 50px;
     margin-bottom: 0;
+    margin-top: 30px;
     color: #0560ab;
 }
 
 .luho_event__info {
     margin-bottom: 0;
+    margin-top: 5px;
 }
 
 .luho_event__info:after {
     width: 70%;
     content: "";
     display: block;
-    border-bottom: 2px solid #cea01a;
+    border-bottom: 4px solid #cea01a;
     margin-top: 3px;
 }
 
 .luho_event__category {
     align-self: flex-start;
-    padding: 0 10px 1px;
-    font-size: 16px;
-    border-radius: 10px;
+    padding: 0 20px 3px;
+    font-size: 40px;
+    border-radius: 30px;
     display: inline-block;
     background-color: #cea01a;
-    margin: 5px 0;
+    margin: 15px 0;
     color: #fff;
 }
