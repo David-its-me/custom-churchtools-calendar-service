@@ -1,10 +1,16 @@
 from typing import Union
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from starlette.responses import FileResponse 
+from starlette.responses import FileResponse
+from churchtools_polling import PollingService
 
 app = FastAPI()
-#app.mount("/assets", StaticFiles(directory="../assets", html=true), name="assets")
+polling = PollingService()
+
+@app.on_event("startup")
+async def startup_event() -> None:
+    """tasks to do at server startup"""
+    polling.poll_entries(3)
 
 @app.get("/")
 def read_root():
@@ -26,6 +32,11 @@ def read_script(path: str):
 def read_css(path: str):
     return read_asset(asset_type="css", path=path)
 
+@app.get("/event/upcomming/{nextUpcomming}")
+def get_event(nextUpcomming: int):
+    # TODO this implementation is not efficient!!!
+    entries = polling.poll_entries(nextUpcomming + 1)
+    return entries[nextUpcomming].to_dictionary()
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
