@@ -1,0 +1,240 @@
+[
+    {
+        "id": 12,
+        "name": "Leitungskreis",
+        "nameTranslated": "Leitungskreis",
+        "sortKey": 0,
+        "color": "black",
+        "isPublic": false,
+        "isPrivate": false,
+        "randomUrl": "o85PqBVmXQ2R9GRpw86KGICMdlCbNxVO",
+        "iCalSourceUrl": null,
+        "campusId": null,
+        "eventTemplateId": null,
+        "meta": {
+            "modifiedDate": "2019-01-30T20:44:52Z",
+            "modifiedPid": 1
+        }
+    },
+    {
+        "id": 21,
+        "name": "CIA",
+        "nameTranslated": "CIA",
+        "sortKey": 0,
+        "color": "#f691b2",
+        "isPublic": false,
+        "isPrivate": false,
+        "randomUrl": "KIrQQb6l9UA38zkdjqKsLqz1dQUtn1X6",
+        "iCalSourceUrl": "",
+        "campusId": null,
+        "eventTemplateId": null,
+        "meta": {
+            "modifiedDate": "2019-01-30T20:46:59Z",
+            "modifiedPid": 1
+        }
+    },
+    {
+        "id": 24,
+        "name": "Jungschar",
+        "nameTranslated": "Jungschar",
+        "sortKey": 0,
+        "color": "#16a765",
+        "isPublic": false,
+        "isPrivate": false,
+        "randomUrl": "dtc6RaG81iGgb7herXjQV8JnQk4S8lNa",
+        "iCalSourceUrl": null,
+        "campusId": null,
+        "eventTemplateId": null,
+        "meta": {
+            "modifiedDate": "2019-01-30T20:47:35Z",
+            "modifiedPid": 1
+        }
+    },
+    {
+        "id": 27,
+        "name": "Gebetskreis",
+        "nameTranslated": "Gebetskreis",
+        "sortKey": 0,
+        "color": "#92e1c0",
+        "isPublic": false,
+        "isPrivate": false,
+        "randomUrl": "b7erO1wQHJSfSDd6JXolaetLwKZnH54d",
+        "iCalSourceUrl": null,
+        "campusId": null,
+        "eventTemplateId": null,
+        "meta": {
+            "modifiedDate": "2019-01-30T20:48:05Z",
+            "modifiedPid": 1
+        }
+    },
+    {
+        "id": 30,
+        "name": "MAK-Termine",
+        "nameTranslated": "MAK-Termine",
+        "sortKey": 0,
+        "color": "#cca6ac",
+        "isPublic": true,
+        "isPrivate": false,
+        "randomUrl": "ZKzD2iCavLO9ui268bnnkN1jL79c78Ku",
+        "iCalSourceUrl": "",
+        "campusId": null,
+        "eventTemplateId": null,
+        "meta": {
+            "modifiedDate": "2019-01-30T20:52:31Z",
+            "modifiedPid": 1
+        }
+    },
+    {
+        "id": 33,
+        "name": "Jungenschaft",
+        "nameTranslated": "Jungenschaft",
+        "sortKey": 0,
+        "color": "#3E70CE",
+        "isPublic": false,
+        "isPrivate": false,
+        "randomUrl": "F7YQcWITWfXbrsaCGxRnU0XCtpRPIxPH",
+        "iCalSourceUrl": null,
+        "campusId": null,
+        "eventTemplateId": null,
+        "meta": {
+            "modifiedDate": "2022-04-02T13:16:11Z",
+            "modifiedPid": 60
+        }
+    },
+    {
+        "id": 35,
+        "name": "Gottesdienste",
+        "nameTranslated": "Gottesdienste",
+        "sortKey": 0,
+        "color": "#7bd148",
+        "isPublic": true,
+        "isPrivate": false,
+        "randomUrl": "G1LlYEJPipnXT1Wmh7aPxMP8oX2WdMNE",
+        "iCalSourceUrl": "",
+        "campusId": null,
+        "eventTemplateId": null,
+        "meta": {
+            "modifiedDate": "2022-11-17T09:25:29Z",
+            "modifiedPid": 156
+        }
+    },
+    {
+        "id": 36,
+        "name": "JuBi",
+        "nameTranslated": "JuBi",
+        "sortKey": 0,
+        "color": "#c93173",
+        "isPublic": true,
+        "isPrivate": false,
+        "randomUrl": "OzZY4mO5BsLOY9Afu5QuNi4XCP8VKVTK",
+        "iCalSourceUrl": null,
+        "campusId": null,
+        "eventTemplateId": null,
+        "meta": {
+            "modifiedDate": "2023-01-10T09:28:52Z",
+            "modifiedPid": 156
+        }
+    },
+    {
+        "id": 37,
+        "name": "Gemeinde Kalender ",
+        "nameTranslated": "Gemeinde Kalender ",
+        "sortKey": 0,
+        "color": "#3e70ce",
+        "isPublic": true,
+        "isPrivate": false,
+        "randomUrl": "VG4Tc66XyC0kRSEQoJrCO6KD6fafo9ni",
+        "iCalSourceUrl": null,
+        "campusId": null,
+        "eventTemplateId": null,
+        "meta": {
+            "modifiedDate": "2023-01-30T09:00:14Z",
+            "modifiedPid": 60
+        }
+    },
+    {
+        "id": 38,
+        "name": "Kirchengemeinderat",
+        "nameTranslated": "Kirchengemeinderat",
+        "sortKey": 0,
+        "color": "#a47ae2",
+        "isPublic": false,
+        "isPrivate": false,
+        "randomUrl": "Pk0YVb6HRlhjArntskYdYGR8uEIy7OKc",
+        "iCalSourceUrl": null,
+        "campusId": null,
+        "eventTemplateId": 0,
+        "meta": {
+            "modifiedDate": "2023-01-30T10:13:08Z",
+            "modifiedPid": 53
+        }
+    },
+    {
+        "id": 39,
+        "name": "Technikteam",
+        "nameTranslated": "Technikteam",
+        "sortKey": 0,
+        "color": "#000000",
+        "isPublic": false,
+        "isPrivate": false,
+        "randomUrl": "jlGAtBwhcHIxj0koBDca3Yf6t8QGKUt5",
+        "iCalSourceUrl": null,
+        "campusId": null,
+        "eventTemplateId": null,
+        "meta": {
+            "modifiedDate": "2023-04-19T10:00:29Z",
+            "modifiedPid": 156
+        }
+    },
+    {
+        "id": 41,
+        "name": "Doga",
+        "nameTranslated": "Doga",
+        "sortKey": 0,
+        "color": "#fbd75b",
+        "isPublic": true,
+        "isPrivate": false,
+        "randomUrl": "P4quR6cbdJEg0iVx13L4AMPoNDH4absr",
+        "iCalSourceUrl": "",
+        "campusId": null,
+        "eventTemplateId": null,
+        "meta": {
+            "modifiedDate": "2023-05-17T08:05:34Z",
+            "modifiedPid": 53
+        }
+    },
+    {
+        "id": 44,
+        "name": "Kindergarten",
+        "nameTranslated": "Kindergarten",
+        "sortKey": 0,
+        "color": "#ff7537",
+        "isPublic": true,
+        "isPrivate": false,
+        "randomUrl": "pcSP9pzhKpX7ltrw5TEadLYgqYNY8Q65",
+        "iCalSourceUrl": "",
+        "campusId": null,
+        "eventTemplateId": null,
+        "meta": {
+            "modifiedDate": "2023-09-04T10:03:51Z",
+            "modifiedPid": 53
+        }
+    },
+    {
+        "id": 45,
+        "name": "Waldheim Dobelgarten",
+        "nameTranslated": "Waldheim Dobelgarten",
+        "sortKey": 0,
+        "color": "#9fe1e7",
+        "isPublic": false,
+        "isPrivate": false,
+        "randomUrl": "ExhGLiMpD5nD1UrQmVJnrTvjXVrxavJa",
+        "iCalSourceUrl": "",
+        "campusId": null,
+        "eventTemplateId": null,
+        "meta": {
+            "modifiedDate": "2023-10-09T22:26:24Z",
+            "modifiedPid": 60
+        }
+    }
+]

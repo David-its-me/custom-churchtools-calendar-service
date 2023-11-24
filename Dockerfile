@@ -11,17 +11,20 @@ FROM python:3.10
 
 WORKDIR /cache
 WORKDIR /logs
-WORKDIR /custom-settings
+WORKDIR /custom-configuration
 WORKDIR /assets
 
 WORKDIR /build
 COPY ./requirements.txt /build/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /build/requirements.txt
-RUN pip install --no-cache-dir --upgrade git+https://github.com/bensteUEM/ChurchToolsAPI.git
+#at the moment install the specific branch in which the calendar is already implemented
+RUN pip install --no-cache-dir --upgrade git+https://github.com/bensteUEM/ChurchToolsAPI.git@bensteUEM/issue80
+#RUN pip install --no-cache-dir --upgrade git+https://github.com/bensteUEM/ChurchToolsAPI.git
 
-COPY ./assets /assets
-COPY ./custom-settings /custom-settings
+COPY ./static /static
+COPY ./custom-configuration /custom-configuration
+COPY ./secret /secret
 COPY ./src /build
 
 

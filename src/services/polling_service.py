@@ -3,7 +3,7 @@ import time
 import logging
 from datetime import datetime, timedelta
 import json
-from ChurchToolsApi import ChurchToolsApi
+from churchtools_api.churchtools_api import ChurchToolsApi
 from repository_classes.calendar_entry import CalendarEntry
 from repository_classes.my_date import MyDate
 from repository_classes.my_time import MyTime
@@ -20,7 +20,7 @@ class PollingService():
             self.ct_users = ast.literal_eval(users_string)
             logging.info('using connection details provided with ENV variables')
         else:
-            with open("../custom-settings/churchtools_credentials.json") as credential_file:
+            with open("../secret/churchtools_credentials.json") as credential_file:
                 secret_data = json.load(credential_file)
                 self.ct_token = secret_data["ct_token"]
                 self.ct_domain = secret_data["ct_domain"]
@@ -34,7 +34,7 @@ class PollingService():
         logging.info("Executing Tests RUN")
 
     
-    def extract_date(self, isoDateString: str) -> MyDate:
+    def _extract_date(self, isoDateString: str) -> MyDate:
         result_date = datetime.strptime(isoDateString, '%Y-%m-%dT%H:%M:%S%z').astimezone().date()
         return MyDate(
             day=result_date.day,
@@ -42,7 +42,7 @@ class PollingService():
             year=result_date.year)
             #weekday=result_date.weekday)
     
-    def extract_time(self, isoDateString: str) -> MyTime:
+    def _extract_time(self, isoDateString: str) -> MyTime:
         today_date = datetime.today().date()
         result_date = datetime.strptime(isoDateString, '%Y-%m-%dT%H:%M:%S%z').astimezone()
         return MyTime(
@@ -60,11 +60,11 @@ class PollingService():
 
         for event in result:
             new_entry: CalendarEntry = CalendarEntry(
-                start_date=self.extract_date(event['startDate']),
-                start_time=self.extract_time(event['startDate']),
+                start_date=self._extract_date(event['startDate']),
+                start_time=self._extract_time(event['startDate']),
                 description=event['description'],
-                end_date=self.extract_date(event['endDate']),
-                end_time=self.extract_time(event['endDate']),
+                end_date=self._extract_date(event['endDate']),
+                end_time=self._extract_time(event['endDate']),
                 title=event['name'],
                 category=event['calendar']['title'],
                 is_event=True
@@ -96,6 +96,18 @@ class PollingService():
         result_max = max([datetime.strptime(item['startDate'], '%Y-%m-%dT%H:%M:%S%z').astimezone().date() for item in result])
         '''
     
+    def get_calendar_list(self):
+        """
+        Tries to retrieve a list of calendars
+        """
+        result = self.api.get_calendars()
+        return result
+    
+    #TODO
+    def get_calendar_entries(self, numberOfUpcommingEntries: int):
+        result = self.api.get_calendar_appointments(calendar_ids=[21, 33], from_='2023-11-19', to_='2024-11-19')
+        return result
+
     def poll_entries(self, numberOfUpcommingEvents: int) -> [CalendarEntry]:
         #while(True):
         events: [CalendarEntry] = self.get_events(numberOfUpcommingEvents)

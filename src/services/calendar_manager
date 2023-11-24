@@ -1,0 +1,9 @@
+from services.polling_service import PollingService
+import json
+
+def update_existing_calendars():
+    with open("../custom-configuration/calendar_settings.json") as credential_file:
+        calendar_data: dict = json.load(credential_file)
+        for calendar in calendar_data:
+            pass
+                
