@@ -1,5 +1,5 @@
-# Credentials and customization
-custom-settings/
+# Credentials
+secret/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
