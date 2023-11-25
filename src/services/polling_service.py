@@ -4,7 +4,7 @@ import logging
 from datetime import datetime, timedelta
 import json
 from churchtools_api.churchtools_api import ChurchToolsApi
-from repository_classes.calendar_entry import CalendarEntry
+from repository_classes.calendar_date import CalendarDate
 from repository_classes.my_date import MyDate
 from repository_classes.my_time import MyTime
 
@@ -49,29 +49,29 @@ class PollingService():
             hour=result_date.hour,
             minute=result_date.minute)
 
-    def get_events(self, numberOfUpcommingEvents: int) -> [CalendarEntry]:
-        result = self.api.get_events()
-
-
+    def get_events(self, number_upcomming: int) -> [CalendarDate]:
         # load next event (limit)
-        result = self.api.get_events(limit=numberOfUpcommingEvents, direction='forward')
+        result = self.api.get_events(limit=number_upcomming, direction='forward')
 
-        calendarEntries: [CalendarEntry] = []
+        events: [CalendarDate] = []
 
         for event in result:
-            new_entry: CalendarEntry = CalendarEntry(
+            new_entry: CalendarDate = CalendarDate(
                 start_date=self._extract_date(event['startDate']),
                 start_time=self._extract_time(event['startDate']),
+                start_iso_datetime=event['startDate'],
+                end_iso_datetime=event['endDate'],
                 description=event['description'],
                 end_date=self._extract_date(event['endDate']),
                 end_time=self._extract_time(event['endDate']),
                 title=event['name'],
                 category=event['calendar']['title'],
-                is_event=True
+                is_event=True,
+                #category_color = event['calendar']['color']
             )
-            calendarEntries.append(new_entry)
+            events.append(new_entry)
         
-        return calendarEntries
+        return events
 
         
         '''
@@ -96,23 +96,56 @@ class PollingService():
         result_max = max([datetime.strptime(item['startDate'], '%Y-%m-%dT%H:%M:%S%z').astimezone().date() for item in result])
         '''
     
-    def get_calendar_list(self):
+    def get_calendar_list(self) -> dict:
         """
         Tries to retrieve a list of calendars
         """
-        result = self.api.get_calendars()
-        return result
-    
-    #TODO
-    def get_calendar_entries(self, numberOfUpcommingEntries: int):
-        result = self.api.get_calendar_appointments(calendar_ids=[21, 33], from_='2023-11-19', to_='2024-11-19')
+        result: dict = self.api.get_calendars()
         return result
 
-    def poll_entries(self, numberOfUpcommingEvents: int) -> [CalendarEntry]:
-        #while(True):
-        events: [CalendarEntry] = self.get_events(numberOfUpcommingEvents)
-        #time.sleep(36000)
-        return events
+    #TODO
+    def get_calendar_dates(
+            self, 
+            from_: str, 
+            #to_: str, 
+            calendar_ids: list) -> [CalendarDate]:
+        
+        result: dict = self.api.get_calendar_appointments(
+            calendar_ids=calendar_ids,
+            from_=from_,
+            #to_=to_
+            )
+        
+        dates: [CalendarDate] = []
+
+        for date in result:
+            address: str = date["address"] 
+            if address is None:
+                address = ""
+
+            newDate: CalendarDate = CalendarDate(
+                start_date=self._extract_date(date['startDate']),
+                start_time=self._extract_time(date['startDate']),
+                start_iso_datetime=date['startDate'],
+                end_iso_datetime=date['endDate'],
+                description=date['information'],
+                end_date=self._extract_date(date['endDate']),
+                end_time=self._extract_time(date['endDate']),
+                title=date['caption'],
+                category=date['calendar']['name'],
+                is_event=False,
+                has_livestream=False,
+                has_childrenschurch=False,
+                has_communion=False,
+                location = address,
+                sermontext = "",
+                speaker = "",
+                category_color = date['calendar']['color']
+            )
+            dates.append(newDate)
+        
+        return dates
+        
 
     def tearDown(self):
             """

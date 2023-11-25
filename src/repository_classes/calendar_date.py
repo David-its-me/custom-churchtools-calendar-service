@@ -1,13 +1,15 @@
 from repository_classes.my_date import MyDate
 from repository_classes.my_time import MyTime
 
-class CalendarEntry():
+class CalendarDate():
 
     def __init__(self,
                  start_date: MyDate,
                  start_time: MyTime,
                  end_date: MyDate,
                  end_time: MyTime,
+                 start_iso_datetime: str,
+                 end_iso_datetime: str,
                  category: str = "",
                  description: str = "",
                  title: str = "",
@@ -17,7 +19,8 @@ class CalendarEntry():
                  location: str = "",
                  sermontext: str = "",
                  speaker: str = "",
-                 is_event: bool = False):
+                 is_event: bool = False,
+                 category_color: str = "#0560ab"):
         self.start_date: MyDate = start_date
         self.end_date: MyDate = end_date
         self.start_time: MyTime = start_time
@@ -32,10 +35,13 @@ class CalendarEntry():
         self.sermontext: str = sermontext
         self.speaker: str = speaker
         self.is_event: bool = is_event
+        self.category_color: str = category_color
+        self.start_iso_datetime: str = start_iso_datetime
+        self.end_iso_datetime: str = end_iso_datetime
 
     @staticmethod
     def calendar_entry_from_dictionary(obj: dict):
-        return CalendarEntry(start_date=MyDate.date_from_dictionary(obj["start_date"]),
+        return CalendarDate(start_date=MyDate.date_from_dictionary(obj["start_date"]),
                             end_date=MyDate.date_from_dictionary(obj["end_date"]),
                             start_time=MyTime.time_from_dictionary(obj["start_time"]),
                             end_time=MyTime.time_from_dictionary(obj["end_time"]),
@@ -48,7 +54,8 @@ class CalendarEntry():
                             location=obj["location"],
                             sermontext=obj["sermontext"],
                             speaker=obj["speaker"],
-                            is_event=["is_event"])
+                            is_event=["is_event"],
+                            category_color=["category_color"])
     
     def to_dictionary(self) -> dict:
         return {
@@ -65,6 +72,14 @@ class CalendarEntry():
             "location": self.location,
             "sermontext": self.sermontext,
             "speaker": self.speaker,
-            "is_event": self.is_event
+            "is_event": self.is_event,
+            "category_color": self.category_color
         }
+    
+    def is_start_before(self, other) -> int:
+        if self.start_date.is_before(other.start_date) != 0:
+            return self.start_date.is_before(other.start_date)
+        if self.start_time.is_before(other.start_time) != 0:
+            return self.start_time.is_before(other.start_time)
+        return 0
 

@@ -1,7 +1,7 @@
 
 
 async function getEvent(eventNumber){
-    const result = await fetch(`/event/upcomming/${eventNumber}`);
+    const result = await fetch(`/date/upcomming/${eventNumber}`);
     result.json().then(data => {
         var eventElement = document.getElementById(`${eventNumber}`);
         
@@ -9,7 +9,7 @@ async function getEvent(eventNumber){
         dayElement.textContent = data["start_date"]["day"];
         
         var monthElement = eventElement.querySelector('.luho_event__month');
-        monthElement.textContent = data["start_date"]["month"];
+        monthElement.textContent = data["start_date"]["month_abbreviation"];
         
         var titleElement = eventElement.querySelector('.luho_event__title');
         titleElement.textContent = data["title"];
@@ -19,6 +19,7 @@ async function getEvent(eventNumber){
 
         var categoryElement = eventElement.querySelector(".luho_event__category");
         categoryElement.textContent = data["category"];
+        categoryElement.style.setProperty('background-color', data["category_color"], 'important')
 
     });
 }
@@ -27,4 +28,9 @@ async function getEvent(eventNumber){
 getEvent(1)
 getEvent(2)
 getEvent(3)
+getEvent(4)
+getEvent(5)
+getEvent(6)
+getEvent(7)
+getEvent(8)
 

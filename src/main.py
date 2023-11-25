@@ -1,16 +1,21 @@
 from typing import Union
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from services.date_data_service import DateDataService
 from starlette.responses import FileResponse
 from services.polling_service import PollingService
+from services.calendar_manager import CalendarManager
+from pydantic import BaseModel
 
 app = FastAPI()
-polling_service = PollingService()
+polling_service: PollingService = PollingService()
+calendar_manager: CalendarManager = CalendarManager(polling_service)
+date_service: DateDataService = DateDataService(polling_service, calendar_manager)
 
 @app.on_event("startup")
 async def startup_event() -> None:
     """tasks to do at server startup"""
-    polling_service.poll_entries(3)
+    
 
 @app.get("/")
 def read_root():
@@ -32,13 +37,29 @@ def read_script(path: str):
 def read_css(path: str):
     return read_static_content(asset_type="css", path=path)
 
-@app.get("/event/upcomming/{nextUpcomming}")
+@app.get("/date/upcomming/{nextUpcomming}")
 def get_event(nextUpcomming: int):
-    # TODO this implementation is not efficient!!!
-    entries = polling_service.poll_entries(nextUpcomming + 1)
-    return entries[nextUpcomming].to_dictionary()
+    return date_service.get_upcomming_date(nextUpcomming)
+
+
 
 @app.get("/test")
 def test():
-    return polling_service.get_calendar_entries(10)
+    with open("../custom-configuration/calendar_settings.json") as settings_file:
+        return calendar_manager.get_visible_calendar_ids()
+    
+
+
+class Visibility(BaseModel):
+    visible: bool
+
+
+@app.get("/calendar/{id}/visible")
+def get_calendar_visibility(id: int):
+    return {"visible": calendar_manager.is_calendar_visible(id)}
+
+
+@app.post("/calendar/{id}/visible")
+def set_calendar_visibility(id: int, visibility_data: Visibility):
+    return calendar_manager.set_calendar_visibility(id = id, visible=visibility_data.visible)
 

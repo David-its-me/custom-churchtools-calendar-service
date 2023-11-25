@@ -18,3 +18,14 @@ class MyTime:
             "hour":self.hour,
             "minute":self.minute
         }
+    
+    def is_before(self, other) -> int:
+        if self.hour < other.hour:
+            return 1
+        if other.hour < self.hour:
+            return -1
+        if self.minute < other.minute:
+            return 1
+        if other.minute < self.minute:
+            return -1
+        return 0
