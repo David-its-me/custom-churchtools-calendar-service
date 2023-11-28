@@ -19,8 +19,8 @@ COPY ./requirements.txt /build/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /build/requirements.txt
 #at the moment install the specific branch in which the calendar is already implemented
-RUN pip install --no-cache-dir --upgrade git+https://github.com/bensteUEM/ChurchToolsAPI.git@dev_benste
-#RUN pip install --no-cache-dir --upgrade git+https://github.com/bensteUEM/ChurchToolsAPI.git
+#RUN pip install --no-cache-dir --upgrade git+https://github.com/bensteUEM/ChurchToolsAPI.git@dev_benste
+RUN pip install --no-cache-dir --upgrade git+https://github.com/bensteUEM/ChurchToolsAPI.git@1.5.2
 
 COPY ./static /static
 COPY ./custom-configuration /custom-configuration

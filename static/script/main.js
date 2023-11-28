@@ -1,4 +1,18 @@
+function intToString(number){
+    result = number.toString();
+    if (number < 10){
+        result = "0" + result;
+    }
+    return result;
 
+}
+
+function formatDescription(description){
+    if (description != ""){
+        description = " - " + description
+    }
+    return description
+}
 
 async function getEvent(eventNumber){
     const result = await fetch(`/date/upcomming/${eventNumber}`);
@@ -15,7 +29,10 @@ async function getEvent(eventNumber){
         titleElement.textContent = data["title"];
         
         var descriptionElement = eventElement.querySelector(".luho_event__description");
-        descriptionElement.textContent = `${data["start_time"]["hour"]}:${data["start_time"]["minute"]} - ${data["description"]}`;
+        descriptionElement.textContent =`
+            ${intToString(data["start_time"]["hour"])}:${intToString(data["start_time"]["minute"])}
+            ${"Uhr"}
+            ${formatDescription(data["description"])}`;
 
         var categoryElement = eventElement.querySelector(".luho_event__category");
         categoryElement.textContent = data["category"];
@@ -33,4 +50,8 @@ getEvent(5)
 getEvent(6)
 getEvent(7)
 getEvent(8)
+getEvent(9)
+getEvent(10)
+getEvent(11)
+getEvent(12)
 

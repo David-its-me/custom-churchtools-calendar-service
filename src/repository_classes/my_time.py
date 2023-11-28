@@ -29,3 +29,8 @@ class MyTime:
         if other.minute < self.minute:
             return -1
         return 0
+
+    def equals(self, other):
+        if self.hour == other.hour and self.minute == other.minute:
+            return True
+        return False

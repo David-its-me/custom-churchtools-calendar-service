@@ -15,7 +15,23 @@
             "modifiedDate": "2019-01-30T20:44:52Z",
             "modifiedPid": 1
         },
-        "visible": false
+        "visible": false,
+        "filterRules":{
+            "includeTitles":[
+                ["public"],
+                ["visible"],
+                ["sichtbar"],
+                ["öffentlich"]
+            ],
+            "excludeTitles":[
+                ["test"],
+                ["intern"],
+                ["privat"],
+                ["private"],
+                ["hidden"],
+                ["invisible"]
+            ]
+        }
     },
     {
         "id": 21,
@@ -49,6 +65,22 @@
         "meta": {
             "modifiedDate": "2019-01-30T20:47:35Z",
             "modifiedPid": 1
+        },
+        "filterRules":{
+            "includeTitles":[
+                ["public"],
+                ["visible"],
+                ["sichtbar"],
+                ["öffentlich"]
+            ],
+            "excludeTitles":[
+                ["test"],
+                ["intern"],
+                ["privat"],
+                ["private"],
+                ["hidden"],
+                ["invisible"]
+            ]
         }
     },
     {
@@ -66,6 +98,22 @@
         "meta": {
             "modifiedDate": "2019-01-30T20:48:05Z",
             "modifiedPid": 1
+        },
+        "filterRules":{
+            "includeTitles":[
+                ["public"],
+                ["visible"],
+                ["sichtbar"],
+                ["öffentlich"]
+            ],
+            "excludeTitles":[
+                ["test"],
+                ["intern"],
+                ["privat"],
+                ["private"],
+                ["hidden"],
+                ["invisible"]
+            ]
         }
     },
     {
@@ -84,7 +132,23 @@
             "modifiedDate": "2019-01-30T20:52:31Z",
             "modifiedPid": 1
         },
-        "visible": false
+        "visible": false,
+        "filterRules":{
+            "includeTitles":[
+                ["public"],
+                ["visible"],
+                ["sichtbar"],
+                ["öffentlich"]
+            ],
+            "excludeTitles":[
+                ["test"],
+                ["intern"],
+                ["privat"],
+                ["private"],
+                ["hidden"],
+                ["invisible"]
+            ]
+        }
     },
     {
         "id": 33,
@@ -101,6 +165,22 @@
         "meta": {
             "modifiedDate": "2022-04-02T13:16:11Z",
             "modifiedPid": 60
+        },
+        "filterRules":{
+            "includeTitles":[
+                ["public"],
+                ["visible"],
+                ["sichtbar"],
+                ["öffentlich"]
+            ],
+            "excludeTitles":[
+                ["test"],
+                ["intern"],
+                ["privat"],
+                ["private"],
+                ["hidden"],
+                ["invisible"]
+            ]
         }
     },
     {
@@ -118,6 +198,22 @@
         "meta": {
             "modifiedDate": "2022-11-17T09:25:29Z",
             "modifiedPid": 156
+        },
+        "filterRules":{
+            "includeTitles":[
+                ["public"],
+                ["visible"],
+                ["sichtbar"],
+                ["öffentlich"]
+            ],
+            "excludeTitles":[
+                ["test"],
+                ["intern"],
+                ["privat"],
+                ["private"],
+                ["hidden"],
+                ["invisible"]
+            ]
         }
     },
     {
@@ -135,6 +231,22 @@
         "meta": {
             "modifiedDate": "2023-01-10T09:28:52Z",
             "modifiedPid": 156
+        },
+        "filterRules":{
+            "includeTitles":[
+                ["public"],
+                ["visible"],
+                ["sichtbar"],
+                ["öffentlich"]
+            ],
+            "excludeTitles":[
+                ["test"],
+                ["intern"],
+                ["privat"],
+                ["private"],
+                ["hidden"],
+                ["invisible"]
+            ]
         }
     },
     {
@@ -152,6 +264,50 @@
         "meta": {
             "modifiedDate": "2023-01-30T09:00:14Z",
             "modifiedPid": 60
+        },
+        "visible": true,
+        "filterRules":{
+            "includeTitles":[
+                ["bibel", "abend"],
+                ["kirch", "chor"],
+                ["studien", "abend"],
+                ["luho", "pop", "gospel"],
+                ["luho", "pop", "gosel"],
+                ["jugend", "chor"],
+                ["kind", "chor"],
+                ["pos", "chor"],
+                ["krab", "caf"],
+                ["krab", "kaf"],
+                ["kultur", "nachmittag"],
+                ["single", "dinner"],
+                ["passion","bibel"],
+                ["bibel", "vortrag"],
+                ["passion", "andacht"],
+                ["bibel", "andacht"],
+                ["sommer", "fest"],
+                ["geminde", "fest"],
+                ["sommer", "feier"],
+                ["gemeinde", "feier"]
+            ],
+            "excludeTitles":[
+                ["haus","kreis"],
+                ["konf","us"],
+                ["konf", "irmation"],
+                ["konf", "is"],
+                ["unterricht"],
+                ["band", "probe"],
+                ["eigentümer", "versammlung"],
+                ["test"],
+                ["kirch", "bau"],
+                ["bau","ausschuss"],
+                ["bau", "verein"],
+                ["kirch", "bau"],
+                ["frei", "zeit"],
+                ["hoch", "zeit"],
+                ["intern"],
+                ["privat"],
+                ["private"]
+            ]
         }
     },
     {
@@ -170,7 +326,23 @@
             "modifiedDate": "2023-01-30T10:13:08Z",
             "modifiedPid": 53
         },
-        "visible": false
+        "visible": false,
+        "filterRules":{
+            "includeTitles":[
+                ["public"],
+                ["visible"],
+                ["sichtbar"],
+                ["öffentlich"]
+            ],
+            "excludeTitles":[
+                ["test"],
+                ["intern"],
+                ["privat"],
+                ["private"],
+                ["hidden"],
+                ["invisible"]
+            ]
+        }
     },
     {
         "id": 39,
@@ -188,7 +360,23 @@
             "modifiedDate": "2023-04-19T10:00:29Z",
             "modifiedPid": 156
         },
-        "visible": false
+        "visible": false,
+        "filterRules":{
+            "includeTitles":[
+                ["public"],
+                ["visible"],
+                ["sichtbar"],
+                ["öffentlich"]
+            ],
+            "excludeTitles":[
+                ["test"],
+                ["intern"],
+                ["privat"],
+                ["private"],
+                ["hidden"],
+                ["invisible"]
+            ]
+        }
     },
     {
         "id": 41,
@@ -206,7 +394,23 @@
             "modifiedDate": "2023-05-17T08:05:34Z",
             "modifiedPid": 53
         },
-        "visible": false
+        "visible": false,
+        "filterRules":{
+            "includeTitles":[
+                ["public"],
+                ["visible"],
+                ["sichtbar"],
+                ["öffentlich"]
+            ],
+            "excludeTitles":[
+                ["test"],
+                ["intern"],
+                ["privat"],
+                ["private"],
+                ["hidden"],
+                ["invisible"]
+            ]
+        }
     },
     {
         "id": 44,
@@ -224,7 +428,23 @@
             "modifiedDate": "2023-09-04T10:03:51Z",
             "modifiedPid": 53
         },
-        "visible": false
+        "visible": false,
+        "filterRules":{
+            "includeTitles":[
+                ["public"],
+                ["visible"],
+                ["sichtbar"],
+                ["öffentlich"]
+            ],
+            "excludeTitles":[
+                ["test"],
+                ["intern"],
+                ["privat"],
+                ["private"],
+                ["hidden"],
+                ["invisible"]
+            ]
+        }
     },
     {
         "id": 45,
@@ -242,6 +462,22 @@
             "modifiedDate": "2023-10-09T22:26:24Z",
             "modifiedPid": 60
         },
-        "visible": false
+        "visible": false,
+        "filterRules":{
+            "includeTitles":[
+                ["public"],
+                ["visible"],
+                ["sichtbar"],
+                ["öffentlich"]
+            ],
+            "excludeTitles":[
+                ["test"],
+                ["intern"],
+                ["privat"],
+                ["private"],
+                ["hidden"],
+                ["invisible"]
+            ]
+        }
     }
 ]

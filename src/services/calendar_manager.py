@@ -89,4 +89,13 @@ class CalendarManager:
         }]
         return self.update_local_calendar_data(overwrite_arguments=arguments)
     
+    def get_calendar_by_id(self, id: int) -> dict:
+        local_data = self.get_local_calendar_data()
+        for calendar in local_data:
+            if "id" in calendar:
+                if calendar["id"] == id:
+                    return calendar
+                
+        return {}
+    
                 

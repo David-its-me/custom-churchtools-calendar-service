@@ -107,43 +107,46 @@ class PollingService():
     def get_calendar_dates(
             self, 
             from_: str, 
-            #to_: str, 
+            to_: str, 
             calendar_ids: list) -> [CalendarDate]:
         
         result: dict = self.api.get_calendar_appointments(
             calendar_ids=calendar_ids,
             from_=from_,
-            #to_=to_
-            )
+            to_=to_)
         
         dates: [CalendarDate] = []
 
         for date in result:
-            address: str = date["address"] 
-            if address is None:
-                address = ""
-
-            newDate: CalendarDate = CalendarDate(
-                start_date=self._extract_date(date['startDate']),
-                start_time=self._extract_time(date['startDate']),
-                start_iso_datetime=date['startDate'],
-                end_iso_datetime=date['endDate'],
-                description=date['information'],
-                end_date=self._extract_date(date['endDate']),
-                end_time=self._extract_time(date['endDate']),
-                title=date['caption'],
-                category=date['calendar']['name'],
-                is_event=False,
-                has_livestream=False,
-                has_childrenschurch=False,
-                has_communion=False,
-                location = address,
-                sermontext = "",
-                speaker = "",
-                category_color = date['calendar']['color']
-            )
-            dates.append(newDate)
-        
+            if not date["allDay"]: # Ignore dates without time (Ganztägig termine)
+                address: str = date["address"] 
+                if address is None:
+                    address = ""
+                description: str = date['information']
+                if description is None:
+                    description = ""
+                newDate: CalendarDate = CalendarDate(
+                    start_date=self._extract_date(date['startDate']),
+                    start_time=self._extract_time(date['startDate']),
+                    start_iso_datetime=date['startDate'],
+                    end_iso_datetime=date['endDate'],
+                    description=description,
+                    end_date=self._extract_date(date['endDate']),
+                    end_time=self._extract_time(date['endDate']),
+                    title=date['caption'],
+                    category=date['calendar']['name'],
+                    is_event=False,
+                    has_livestream=False,
+                    has_childrenschurch=False,
+                    has_communion=False,
+                    location = address,
+                    sermontext = "",
+                    speaker = "",
+                    category_color = date['calendar']['color'],
+                    category_id=date['calendar']['id']
+                )
+                dates.append(newDate)
+            
         return dates
         
 

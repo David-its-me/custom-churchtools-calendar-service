@@ -51,4 +51,9 @@ class MyDate():
         if other.day < self.day:
             return -1
         return 0
+    
+    def equals(self, other) -> bool:
+        if self.year == other.year and self.month == other.month and self.day == other.day:
+            return True
+        return False
 

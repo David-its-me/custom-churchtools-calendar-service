@@ -29,6 +29,10 @@ def read_static_content(asset_type: str, path: str):
 def read_html(path: str):
     return read_static_content(asset_type="html", path=path)
 
+@app.get("/icons/{path}")
+def read_html(path: str):
+    return read_static_content(asset_type="icons", path=path)
+
 @app.get("/script/{path}")
 def read_script(path: str):
     return read_static_content(asset_type="script", path=path)

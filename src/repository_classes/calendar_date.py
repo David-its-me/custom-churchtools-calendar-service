@@ -20,7 +20,8 @@ class CalendarDate():
                  sermontext: str = "",
                  speaker: str = "",
                  is_event: bool = False,
-                 category_color: str = "#0560ab"):
+                 category_color: str = "#0560ab",
+                 category_id: int = 0):
         self.start_date: MyDate = start_date
         self.end_date: MyDate = end_date
         self.start_time: MyTime = start_time
@@ -38,6 +39,7 @@ class CalendarDate():
         self.category_color: str = category_color
         self.start_iso_datetime: str = start_iso_datetime
         self.end_iso_datetime: str = end_iso_datetime
+        self.category_id: int = category_id
 
     @staticmethod
     def calendar_entry_from_dictionary(obj: dict):
@@ -54,8 +56,9 @@ class CalendarDate():
                             location=obj["location"],
                             sermontext=obj["sermontext"],
                             speaker=obj["speaker"],
-                            is_event=["is_event"],
-                            category_color=["category_color"])
+                            is_event=obj["is_event"],
+                            category_color=obj["category_color"],
+                            category_id=obj["category_id"])
     
     def to_dictionary(self) -> dict:
         return {
@@ -73,7 +76,8 @@ class CalendarDate():
             "sermontext": self.sermontext,
             "speaker": self.speaker,
             "is_event": self.is_event,
-            "category_color": self.category_color
+            "category_color": self.category_color,
+            "category_id": self.category_id
         }
     
     def is_start_before(self, other) -> int:
