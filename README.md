@@ -7,7 +7,8 @@ The visualization is based on our Cooporate Identity of our church. See our webp
 ## Build the Container Image
 The service is made as a Docker container. Before you build the container, please enter your churchtools credentials in the [/secret/churchtools_credentials.json](/secret/churchtools_credentials.json) file.
 
-After that you can build an run the Docker container. Please be aware that Docker must already be installed on your operating system.
+After that you can build an run the Docker container. Please be aware that Docker must already be installed on your operating system. Here you can find more infromation about docker: https://docs.docker.com/
+
 If everything is setup, open a terminal and go into the root directory of this reposiory. There you can build the project with the following command:
 ```
 docker build -t <tag> .
