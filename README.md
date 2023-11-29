@@ -25,4 +25,10 @@ Now you can open http://127.0.0.1/ or http://localhost/ and see if everything is
 It is possible to add filter and manipulation rules for the calendar entries. 
 All of them can be changed in the [/custom-configuration](/custom-configuration) folder.
 
+To make the changes apply, the container must be rebuilt.
+
 TODO explain that a bit more.
+
+## Future Ideas
+ - This service could also be accessed by our website in future. This service aims to filter and prettify dates in such a way, that they can be used for publication. For that the API functionality must be extended a little.
+ - Build a GUI to change the custom configurations in a more convenient way, than within the .json files.
