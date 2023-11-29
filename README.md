@@ -2,6 +2,8 @@
 
 This service polls upcomming calendar entries and event data from a churchtools server and generates annoucement slides that visualize the upcomming events.
 
+The visualization is based on our Cooporate Identity of our church. See our webpage: https://www.luho.de/.
+
 ## Build the Container Image
 The service is made as a Docker container. Before you build the container, please enter your churchtools credentials in the [/secret/churchtools_credentials.json](/secret/churchtools_credentials.json) file.
 
