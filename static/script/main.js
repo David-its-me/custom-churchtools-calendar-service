@@ -7,12 +7,57 @@ function intToString(number){
 
 }
 
-function formatDescription(description){
+function formatDescription(description, speaker="", sermontext=""){
     if (description != ""){
         description = " - " + description
     }
+    if (speaker != ""){
+        if (description == ""){
+            description = description + " - "
+        }
+        description = description + " mit " + speaker + "."
+    }
+    if (sermontext != ""){
+        if (description == ""){
+            description = description + " - "
+        }
+        description = description + " Bibeltext: " + sermontext
+    }
     return description
 }
+
+var livestreamHTML =    `<span class="luho_event__livestream">
+                            <img style="padding: 0px; width:80px;height:80px;" src="../icons/livestream.png" alt="Uhr">
+                        </span>`;
+var childrenchurchHTML =    `<span class="luho_event__childrenchurch">
+                                <img style="padding-top: 0px; padding-bottom: 0px; width:80px;height:80px;" src="../icons/children.png" alt="Mit Kinderkirche">
+                            </span>`;
+
+var communionHTML = `<span class="luho_event__communion">
+                        <img style="padding-top: 0px; padding-bottom: 0px; width:80px;height:80px;" src="../icons/communion.png" alt="Mit Kinderkirche">
+                    </span>`
+
+function locationHTML(location="Location"){
+    return `<span>
+                <img style="padding-top: 15px; padding-bottom: 15px; width:50px;height:80px;" src="../icons/location.svg" alt="Uhr">
+                <span class="luho_event__location" style="align-self: flex-start;
+                            font-size: 40px;
+                            display: inline-block;
+                            margin: 15px 0;">
+                    ${location}
+                </span>
+            </span>`;
+}
+
+function categoryHTML(category="Kategorie", backgroundColor="#0560ab"){
+    if (backgroundColor == ""){
+        backgroundColor="#0560ab";
+    }
+    return `<span class="luho_event__category" style="background-color: ${backgroundColor}" >
+                ${category}
+            </span>`;
+}
+
 
 async function getEvent(eventNumber){
     const result = await fetch(`/date/upcomming/${eventNumber}`);
@@ -32,11 +77,41 @@ async function getEvent(eventNumber){
         descriptionElement.textContent =`
             ${intToString(data["start_time"]["hour"])}:${intToString(data["start_time"]["minute"])}
             ${"Uhr"}
-            ${formatDescription(data["description"])}`;
+            ${formatDescription(data["description"], speaker=data["speaker"], sermontext=data["sermontext"])}`;
 
-        var categoryElement = eventElement.querySelector(".luho_event__category");
-        categoryElement.textContent = data["category"];
-        categoryElement.style.setProperty('background-color', data["category_color"], 'important')
+        //var categoryElement = eventElement.querySelector(".luho_event__category");
+        //categoryElement.textContent = data["category"];
+        //categoryElement.style.setProperty('background-color', data["category_color"], 'important')
+
+        var infoElement = eventElement.querySelector(".luho_event__info");
+        // Set Category if there is information about the Category
+        if (data["category"] != ""){
+            infoElement.innerHTML += categoryHTML(data["category"], data["category_color"])
+        }
+        
+        // TODO Sermontext
+
+        // TODO Speaker
+
+        // Set Livestream Icon
+        if (data["has_livestream"]){
+            infoElement.innerHTML += livestreamHTML
+        }
+
+        // Set Childrenschurch Icon
+        if (data["has_childrenschurch"]){
+            infoElement.innerHTML += childrenchurchHTML
+        }
+
+        // Set Communion Icon
+        if (data["has_communion"]){
+            infoElement.innerHTML += communionHTML
+        }
+
+        // Set Location if there is information about the Location
+        if (data["location"] != ""){
+            infoElement.innerHTML += locationHTML(data["location"])
+        }
 
     });
 }

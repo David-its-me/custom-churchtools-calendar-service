@@ -49,8 +49,7 @@ def get_event(nextUpcomming: int):
 
 @app.get("/test")
 def test():
-    with open("../custom-configuration/calendar_settings.json") as settings_file:
-        return calendar_manager.get_visible_calendar_ids()
+    return polling_service.api.get_calendar_appointments(calendar_ids=calendar_manager.get_visible_calendar_ids(),from_="2023-11-20", to_="2023-12-20")
     
 
 

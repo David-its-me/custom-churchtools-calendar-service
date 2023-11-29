@@ -41,6 +41,39 @@ class PollingService():
             month=result_date.month,
             year=result_date.year)
             #weekday=result_date.weekday)
+
+    @staticmethod
+    def _resolve_address_to_string(address: dict, note: str="") -> str:
+        note.lstrip().rstrip()
+        if address is None:
+            return note
+        
+        result: str = ""
+        if "meetingAt" in address:
+            if not address["meetingAt"] is None:
+                if address["meetingAt"] == "":
+                    result = result + note
+                else:
+                    result = result + address["meetingAt"]
+        if "street" in address:
+            if not address["street"] is None:
+                result = result + ", " + address["street"]
+        if "addition" in address:
+            if not address["addition"] is None:
+                result = result + " " + address["addition"]
+        if "district" in address:
+            if not address["district"] is None:
+                result = result + " " + address["district"]
+        if "zip" in address:
+            if not address["zip"] is None:
+                result = result + ", " + address["zip"]
+        if "city" in address:
+            if not address["city"] is None:
+                result = result + " " + address["city"]
+        if "country" in address:
+            if not address["country"] is None:
+                result = result + ", " + address["country"]
+        return result
     
     def _extract_time(self, isoDateString: str) -> MyTime:
         today_date = datetime.today().date()
@@ -67,7 +100,14 @@ class PollingService():
                 title=event['name'],
                 category=event['calendar']['title'],
                 is_event=True,
-                #category_color = event['calendar']['color']
+                ################################################
+                ### TODO get the following information form Churchtools
+                ###################################
+                speaker="<speaker>",
+                sermontext="<sermomtext>",
+                has_childrenschurch=True,
+                has_livestream=True,
+                #####################################################
             )
             events.append(new_entry)
         
@@ -119,9 +159,6 @@ class PollingService():
 
         for date in result:
             if not date["allDay"]: # Ignore dates without time (Ganztägig termine)
-                address: str = date["address"] 
-                if address is None:
-                    address = ""
                 description: str = date['information']
                 if description is None:
                     description = ""
@@ -139,7 +176,7 @@ class PollingService():
                     has_livestream=False,
                     has_childrenschurch=False,
                     has_communion=False,
-                    location = address,
+                    location = PollingService._resolve_address_to_string(address=date["address"], note=date["note"]),
                     sermontext = "",
                     speaker = "",
                     category_color = date['calendar']['color'],

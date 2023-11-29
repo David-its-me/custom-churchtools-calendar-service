@@ -39,7 +39,7 @@
         {"titleSequence": ["bibel", "abend"], "replacement": "Großer Saal"}
     ],
     "categoryRules":[
-        {"categorySequence": ["gemeinde", "kalender"], "replacement": "Angebote"},
+        {"categorySequence": ["gemeinde", "kalender"], "replacement": ""},
         {"titleSequence": ["chor"], "replacement": "Musik"},
         {"titleSequence": ["luho", "pop", "go"], "replacement": "Musik"},
         {"titleSequence": ["bibel", "abend"], "replacement": "Bibelstudienabend"},
@@ -54,10 +54,12 @@
     "hasLivestreamRules":[],
     "hasChildrenschurchRules":[],
     "hasCommunionRules":[
-        {"descriptionSequence": ["mit", "abendmahl"], "value": true},
+        {"descriptionSequence": ["abendmahl"], "value": true},
         {"titleSequence": ["abendmahl"], "value": true},
         {"titleSequence": ["ohne", "abendmahl"], "value": false},
-        {"titleSequence": ["kein", "abendmahl"], "value": false}        
+        {"titleSequence": ["kein", "abendmahl"], "value": false},
+        {"descriptionSequence": ["ohne", "abendmahl"], "value": false},
+        {"descriptionSequence": ["kein", "abendmahl"], "value": false}        
     ], 
     
     "biblicalBooks":[

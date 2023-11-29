@@ -441,3 +441,13 @@ figure {
     margin: 15px 0;
     color: #fff;
 }
+
+.luho_event__location {
+    align-self: flex-start;
+    padding: 0 20px 0px;
+    font-size: 40px;
+    border-radius: 30px;
+    display: inline-block;
+    margin: 15px 0;
+    
+}
