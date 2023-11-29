@@ -16,9 +16,9 @@ After build was successful you can run your container image with the follwing co
 ```
 docker run -p 80:80 <tag>
 ```
-The ```-p```-p opens a port between the operating system and the container, to be able to access the container on port 80.
+The ```-p``` option opens a port between the operating system and the container, to be able to access the container on port 80.
 
-Now you can open http://127.0.0.1/ or http://localhost/
+Now you can open http://127.0.0.1/ or http://localhost/ and see if everything is working!
 
 ### Custom Configuration
 It is possible to add filter and manipulation rules for the calendar entries. 
