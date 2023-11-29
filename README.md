@@ -4,12 +4,13 @@ This service polls upcomming calendar entries and event data from a churchtools 
 
 ## Build the Container Image
 The service is made as a Docker container. Before you build the container, please enter your churchtools credentials in the [/secret/churchtools_credentials.json](/secret/churchtools_credentials.json) file.
-Now to build an run the Docker container, Docker must be installed on your operating system already.
-If everithing is setup open a terminal go into the root directory of this reposiory and build the project with the following command:
+
+After that you can build an run the Docker container. Please be aware that Docker must already be installed on your operating system.
+If everithing is setup, open a terminal and go into the root directory of this reposiory. There you can build the project with the following command:
 ```
 docker build -t <tag> .
 ```
-Please invent your own name for the container image in ```<tag>```.
+Please invent your own name for the container image in the ```<tag>``` variable.
 
 ## Run the Container Image
 After build was successful you can run your container image with the follwing command:
