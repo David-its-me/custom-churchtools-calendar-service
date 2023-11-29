@@ -17,6 +17,6 @@ After build was successful you can run your container image with the follwing co
 ```
 docker run -p 80:80 <tag>
 ```
-The -p opens a port between the operating system and the container, to be able to access the container.
+The ```-p```-p opens a port between the operating system and the container, to be able to access the container.
 
 Now you can open http://127.0.0.1/ or http://localhost/
