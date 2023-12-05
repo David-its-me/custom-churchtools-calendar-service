@@ -49,7 +49,11 @@ def get_event(nextUpcomming: int):
 
 @app.get("/test")
 def test():
-    return polling_service.api.get_calendar_appointments(calendar_ids=calendar_manager.get_visible_calendar_ids(),from_="2023-11-20", to_="2023-12-20")
+    return polling_service.api.get_AllEventData_ajax(431)
+
+@app.get("/test2")
+def test2():
+    return DateDataService._tag_rule({"descriptionSequence": ["<biblicalBook>", "<#1>"], "replacement": ["<biblicalBook>", " <#1>"]})
     
 
 

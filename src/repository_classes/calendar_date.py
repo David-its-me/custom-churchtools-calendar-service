@@ -4,6 +4,7 @@ from repository_classes.my_time import MyTime
 class CalendarDate():
 
     def __init__(self,
+                 id: int,
                  start_date: MyDate,
                  start_time: MyTime,
                  end_date: MyDate,
@@ -22,6 +23,7 @@ class CalendarDate():
                  is_event: bool = False,
                  category_color: str = "#0560ab",
                  category_id: int = 0):
+        self.id: int = id
         self.start_date: MyDate = start_date
         self.end_date: MyDate = end_date
         self.start_time: MyTime = start_time
@@ -43,7 +45,8 @@ class CalendarDate():
 
     @staticmethod
     def calendar_entry_from_dictionary(obj: dict):
-        return CalendarDate(start_date=MyDate.date_from_dictionary(obj["start_date"]),
+        return CalendarDate(id=obj["id"],
+                            start_date=MyDate.date_from_dictionary(obj["start_date"]),
                             end_date=MyDate.date_from_dictionary(obj["end_date"]),
                             start_time=MyTime.time_from_dictionary(obj["start_time"]),
                             end_time=MyTime.time_from_dictionary(obj["end_time"]),
@@ -62,6 +65,7 @@ class CalendarDate():
     
     def to_dictionary(self) -> dict:
         return {
+            "id": self.id,
             "start_date": self.start_date.to_dictionary(),
             "end_date": self.end_date.to_dictionary(),
             "start_time": self.start_time.to_dictionary(),

@@ -5,6 +5,7 @@ from repository_classes.calendar_date import CalendarDate
 from services.calendar_manager import CalendarManager
 from services.polling_service import PollingService
 from functools import cmp_to_key
+import copy
 
 
 class DateDataService():
@@ -57,14 +58,48 @@ class DateDataService():
         return result
     
     @staticmethod
-    def _match_sequence(text: str, sequence: [str]) -> bool:
-        text_copy = text.lower() # because the text is manipulated
+    def _match_sequence(text: str, sequence: [str]) -> (bool, {}):
+        text_copy: str = copy.deepcopy(text) # because the text is manipulated
+        resulting_variable_matching = {}
+        last_variable_name: str = None
         for fragment in sequence:
-            if fragment.lower().lstrip().rstrip() in text_copy:
-                text_copy = text_copy[text_copy.find(fragment):]
+            fragment = fragment.lower().lstrip().rstrip()
+            if fragment in text_copy.lower():
+                # copy the content that will be cutted be the maching in the variable that stands before.
+                start_index: int = text_copy.lower().find(fragment)
+                split_index: int = start_index + len(fragment)
+                if last_variable_name is not None: 
+                    variable = copy.deepcopy(text_copy[:start_index])
+                    variable.lstrip()
+                    if variable[1:].find(" ") != -1:
+                        variable = variable[:variable[1:].find(" ") +1]
+                    if variable.find("\n") != -1:
+                        variable = variable[:variable.find("\n")]
+                    resulting_variable_matching[last_variable_name] = variable
+                    last_variable_name = None
+                # Cut the text up to the fragment matching point.
+                text_copy = copy.deepcopy(text_copy[split_index:])
+            # If there is a varaible, generate a new variable assignment
+            elif fragment[:1] == "<" and fragment[-1:] == ">":
+                tag_value: str = fragment[1:-1]
+                if tag_value[:1] == "#":
+                    last_variable_name = tag_value[1:]
+                    resulting_variable_matching.update({last_variable_name: ""})
             else:
-                return False
-        return True
+                return False, resulting_variable_matching
+        
+        # copy the content that will be cutted be the maching in the variable that stands before.
+        if last_variable_name is not None: 
+            variable = copy.deepcopy(text_copy)
+            variable.lstrip()
+            if variable[1:].find(" ") != -1:
+                variable = variable[:variable[1:].find(" ") +1]
+            if variable.find("\n") != -1:
+                variable = variable[:variable.find("\n")]
+            resulting_variable_matching[last_variable_name] = variable
+            last_variable_name = None
+    
+        return True, resulting_variable_matching
     
     def filter_dates(self, dates: [CalendarDate]) -> [CalendarDate]:
         result: [CalendarDate] = []
@@ -74,13 +109,15 @@ class DateDataService():
             if "filterRules" in calendar_data:
                 if "includeTitles" in calendar_data["filterRules"]:
                     for titleIncludeRule in calendar_data["filterRules"]["includeTitles"]:
-                        if self._match_sequence(date.title, titleIncludeRule):
+                        (match, variables) = self._match_sequence(date.title, titleIncludeRule)
+                        if match:
                             included = True
                             break
                 
                 if "excludeTitles" in calendar_data["filterRules"]:
                     for titleExcludeRule in calendar_data["filterRules"]["excludeTitles"]:
-                        if self._match_sequence(date.title, titleExcludeRule):
+                        (match, variables) = self._match_sequence(date.title, titleExcludeRule)
+                        if match:
                             included = False
                             break
 
@@ -93,70 +130,196 @@ class DateDataService():
         return result
 
     @staticmethod
-    def _apply_rule_manipulation(value: str|bool, rule: dict) -> str|bool:
-        if "replacement" in rule:
-            value = rule["replacement"]
-        if "addition" in rule:
-            value = value + rule["addition"] 
-        if "value" in rule:
-            value = rule["value"] 
-        
+    def _apply_variable_assignment(value: str|bool, variabe_assignment: dict) -> str|bool:
+        if isinstance(value, str):
+            if value.lstrip().rstrip()[:1] == "<" and value[-1:] == ">":
+                tag_value: str = value.lstrip().rstrip()[1:-1]
+                if tag_value[:1] == "#":
+                    variable_name: str = tag_value[1:]
+                    if variable_name in variabe_assignment:
+                        return variabe_assignment[variable_name]
+                    if variabe_assignment in variable_name:
+                        return variabe_assignment[variable_name]
         return value
+
+
+    @staticmethod
+    def _apply_rule_manipulation(value: str|bool, rule: dict, variable_assignment: dict={}) -> str|bool:
+        result: any = None
+        if "replacement" in rule:
+            result = rule["replacement"]
+        if "addition" in rule:
+            result = value + rule["addition"] 
+        if "value" in rule:
+            result = rule["value"]
+
+        if isinstance(result, str):
+            return DateDataService._apply_variable_assignment(value=result, variabe_assignment=variable_assignment)
+        if isinstance(result, list):
+            result_str: str = ""
+            for fragment in result:
+                result_str = result_str + DateDataService._apply_variable_assignment(value=fragment, variabe_assignment=variable_assignment)
+            return result_str
+        
+        return result
+    
+    @staticmethod
+    def _replace_rule_tags_in_sequences(match_sequence:[str], result_sequence: str |list) -> [{}]:
+        result:[{}] = []
+        i: int = 0
+        tag_found: bool = False
+        for fragment in match_sequence:
+            if fragment[:1] == "<" and fragment[-1:] == ">":
+                tag_value: str = fragment[1:-1]
+                if tag_value[:1] == "#":
+                    variable_name: str = tag_value[1:]
+                else:
+                    tag_found = True
+                    with open("../custom-configuration/prettify_rules_tag_definitions.json") as tag_definition_file:
+                        tag_definitions: dict = json.load(tag_definition_file)
+                        for tag_definition in tag_definitions:
+                            if tag_definition["tagName"] == tag_value:
+                                for tag_match in tag_definition["tagMatches"]:
+                                    # Handle a tag match
+                                    replaced_result_sequence = None
+                                    if isinstance(result_sequence, list):
+                                        replaced_result_sequence = []
+                                        replaced_result_sequence.extend(result_sequence)
+                                        for j in range(len(replaced_result_sequence)):
+                                            if replaced_result_sequence[j] == fragment:
+                                                replaced_result_sequence[j] = tag_match["value"]
+                                    elif isinstance(result_sequence, str):
+                                        replaced_result_sequence = result_sequence
+                                        if replaced_result_sequence == fragment:
+                                            replaced_result_sequence = tag_match["value"]
+
+                                    for match in tag_match["match"]:
+                                        replaced_match_sequence: [str] = []
+                                        replaced_match_sequence.extend(match_sequence)
+                                        replaced_match_sequence[i] = match
+                                        ##### recursion step #####
+                                        result.extend(DateDataService._replace_rule_tags_in_sequences(replaced_match_sequence, replaced_result_sequence))
+            i = i + 1
+
+        if not tag_found:
+            ##### This step is important to have a value at the end of the recursion #####
+            result.append({"matchSequence": match_sequence, "resultSequence": result_sequence})
+        
+        return result
+    
+    @staticmethod
+    def _tag_rule_with_given_sequences_names(rule: dict, match_sequence_name: str, result_sequence_name: str) -> [{}]:
+        resulting_rules: [] = []
+        if match_sequence_name in rule and result_sequence_name in rule:
+            for replaced_sequence in DateDataService._replace_rule_tags_in_sequences(match_sequence=rule[match_sequence_name], result_sequence=rule[result_sequence_name]):
+                new_rule: dict = copy.deepcopy(rule)
+                new_rule[match_sequence_name] = replaced_sequence["matchSequence"]
+                new_rule[result_sequence_name] = replaced_sequence["resultSequence"]
+                resulting_rules.append(new_rule)
+        return resulting_rules
+
+    @staticmethod
+    def _tag_rule_with_given_match_sequence_name(rule: dict, match_sequence_name: str) -> [{}]:
+        resulting_rules: [] = []
+        if "replacement" in rule:
+            resulting_rules.extend(DateDataService._tag_rule_with_given_sequences_names(
+                rule=rule, 
+                match_sequence_name=match_sequence_name, 
+                result_sequence_name="replacement"))
+        if "addition" in rule:
+            resulting_rules.extend(DateDataService._tag_rule_with_given_sequences_names(
+                rule=rule, 
+                match_sequence_name=match_sequence_name, 
+                result_sequence_name="addition"))
+        if "value" in rule:
+            resulting_rules.extend(DateDataService._tag_rule_with_given_sequences_names(
+                rule=rule, 
+                match_sequence_name=match_sequence_name, 
+                result_sequence_name="value"))
+        return resulting_rules
+
+
+    @staticmethod
+    def _tag_rule(rule: dict) -> [{}]:
+        resulting_rules: [] = []
+        if "titleSequence" in rule:
+            resulting_rules.extend(DateDataService._tag_rule_with_given_match_sequence_name(
+                rule=rule, 
+                match_sequence_name="titleSequence"))
+        if "descriptionSequence" in rule:
+            resulting_rules.extend(DateDataService._tag_rule_with_given_match_sequence_name(
+                rule=rule, 
+                match_sequence_name="descriptionSequence"))
+        if "categorySequence" in rule:
+            resulting_rules.extend(DateDataService._tag_rule_with_given_match_sequence_name(
+                rule=rule, 
+                match_sequence_name="categorySequence"))
+        return resulting_rules
+
 
     @staticmethod
     def _process_rule(value: str|bool, rule: dict, date: CalendarDate) -> str|bool:
         if "titleSequence" in rule:
-            if DateDataService._match_sequence(date.title, rule["titleSequence"]):
-                value = DateDataService._apply_rule_manipulation(value=value, rule=rule)
+            (match, variable_assignment) = DateDataService._match_sequence(date.title, rule["titleSequence"])
+            if match:
+                value = DateDataService._apply_rule_manipulation(value=value, rule=rule, variable_assignment=variable_assignment)
         if "descriptionSequence" in rule:
-            if DateDataService._match_sequence(date.description, rule["descriptionSequence"]):
-                value = DateDataService._apply_rule_manipulation(value=value, rule=rule)
+            (match, variable_assignment) = DateDataService._match_sequence(date.description, rule["descriptionSequence"])
+            if match:
+                value = DateDataService._apply_rule_manipulation(value=value, rule=rule, variable_assignment=variable_assignment)
         if "categorySequence" in rule:
-            if DateDataService._match_sequence(date.category, rule["categorySequence"]):
-                value = DateDataService._apply_rule_manipulation(value=value, rule=rule)
+            (match, variable_assignment) = DateDataService._match_sequence(date.category, rule["categorySequence"])
+            if match:
+                value = DateDataService._apply_rule_manipulation(value=value, rule=rule, variable_assignment=variable_assignment)
         
         return value
 
     @staticmethod
     def prettify_date(date: CalendarDate, rules: dict) -> CalendarDate:
         # Title rules
-        title_after_processing: str = date.title
+        title_after_processing: str = copy.deepcopy(date.title)
         if "titleRules" in rules:
             for rule in rules["titleRules"]:
-                title_after_processing = DateDataService._process_rule(title_after_processing, rule=rule, date=date)
+                for tagged_rule in DateDataService._tag_rule(rule=rule):
+                    title_after_processing = DateDataService._process_rule(title_after_processing, rule=tagged_rule, date=date)
         # Description Rules
-        description_after_processing: str = date.description
+        description_after_processing: str = copy.deepcopy(date.description)
         if "descriptionRules" in rules:
             for rule in rules["descriptionRules"]:
-                description_after_processing = DateDataService._process_rule(description_after_processing, rule=rule, date=date)
+                for tagged_rule in DateDataService._tag_rule(rule=rule):
+                    description_after_processing = DateDataService._process_rule(description_after_processing, rule=tagged_rule, date=date)
         # Sermontext Rules
-        sermontext_after_processing: str = date.sermontext
+        sermontext_after_processing: str = copy.deepcopy(date.sermontext)
         if "sermontextRules" in rules:
             for rule in rules["sermontextRules"]:
-                sermontext_after_processing = DateDataService._process_rule(sermontext_after_processing, rule=rule, date=date)
+                for tagged_rule in DateDataService._tag_rule(rule=rule):
+                    sermontext_after_processing = DateDataService._process_rule(sermontext_after_processing, rule=tagged_rule, date=date)
         # Location Rules
-        location_after_processing: str = date.location
+        location_after_processing: str = copy.deepcopy(date.location)
         if "locationRules" in rules:
             for rule in rules["locationRules"]:
-                location_after_processing = DateDataService._process_rule(location_after_processing, rule=rule, date=date)
+                for tagged_rule in DateDataService._tag_rule(rule=rule):
+                    location_after_processing = DateDataService._process_rule(location_after_processing, rule=tagged_rule, date=date)
         # Category Rules
-        category_after_processing: str = date.category
+        category_after_processing: str = copy.deepcopy(date.category)
         if "categoryRules" in rules:
             for rule in rules["categoryRules"]:
-                category_after_processing = DateDataService._process_rule(category_after_processing, rule=rule, date=date)
+                for tagged_rule in DateDataService._tag_rule(rule=rule):
+                    category_after_processing = DateDataService._process_rule(category_after_processing, rule=tagged_rule, date=date)
         # Category Color Rules
-        category_color_after_processing: str = date.category_color
+        category_color_after_processing: str = copy.deepcopy(date.category_color)
         if "categoryColorRules" in rules:
             for rule in rules["categoryColorRules"]:
-                category_color_after_processing = DateDataService._process_rule(category_color_after_processing, rule=rule, date=date)
+                for tagged_rule in DateDataService._tag_rule(rule=rule):
+                    category_color_after_processing = DateDataService._process_rule(category_color_after_processing, rule=tagged_rule, date=date)
         
-        # TODO Livestream Rules
-        # TODO Childrenschurch Rules
         # Communion Rules
-        communion_after_processing: bool = date.has_communion
+        communion_after_processing: bool = copy.deepcopy(date.has_communion)
         if "hasCommunionRules" in rules:
             for rule in rules["hasCommunionRules"]:
-                communion_after_processing = DateDataService._process_rule(communion_after_processing, rule=rule, date=date)
+                for tagged_rule in DateDataService._tag_rule(rule=rule):
+                    communion_after_processing = DateDataService._process_rule(communion_after_processing, rule=tagged_rule, date=date)
+
         
         # After all rules are processed we can now apply the changes to the date
         date.title = title_after_processing
@@ -165,8 +328,6 @@ class DateDataService():
         date.location = location_after_processing
         date.category = category_after_processing
         date.category_color = category_color_after_processing
-        # TODO Livestream
-        # TODO Childrenschurch
         date.has_communion = communion_after_processing
         
         return date

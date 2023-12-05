@@ -9,41 +9,44 @@ function intToString(number){
 
 function formatDescription(description, speaker="", sermontext=""){
     if (description != ""){
-        description = " - " + description
+        description = " - " + description;
     }
     if (speaker != ""){
         if (description == ""){
-            description = description + " - "
+            description = description + " - ";
         }
-        description = description + " mit " + speaker + "."
+        description = description + " mit " + speaker;
     }
     if (sermontext != ""){
-        if (description == ""){
+        if (description != ""){
             description = description + " - "
         }
-        description = description + " Bibeltext: " + sermontext
+        description = description + " Bibeltext: " + sermontext;
     }
-    return description
+    return description;
 }
 
 var livestreamHTML =    `<span class="luho_event__livestream">
                             <img style="padding: 0px; width:80px;height:80px;" src="../icons/livestream.png" alt="Uhr">
                         </span>`;
 var childrenchurchHTML =    `<span class="luho_event__childrenchurch">
-                                <img style="padding-top: 0px; padding-bottom: 0px; width:80px;height:80px;" src="../icons/children.png" alt="Mit Kinderkirche">
+                                <img style="padding-top: 0px; padding-bottom: 0px; width:80px;height:80px;" src="../icons/children.png" alt="mit Kinderkirche">
                             </span>`;
 
 var communionHTML = `<span class="luho_event__communion">
-                        <img style="padding-top: 0px; padding-bottom: 0px; width:80px;height:80px;" src="../icons/communion.png" alt="Mit Kinderkirche">
+                        <img style="padding-top: 0px; padding-bottom: 0px; width:80px;height:80px;" src="../icons/communion.png" alt="mit Abendmahl">
                     </span>`
 
 function locationHTML(location="Location"){
-    return `<span>
-                <img style="padding-top: 15px; padding-bottom: 15px; width:50px;height:80px;" src="../icons/location.svg" alt="Uhr">
-                <span class="luho_event__location" style="align-self: flex-start;
+    return `<span class="luho_event__location">
+                <img style="padding-top: 15px; padding-bottom: 15px; width:50px;height:80px;" src="../icons/location.svg" alt="Ort:">
+                <span class="luho_event__location" style="
+                            align-self: flex-start;
                             font-size: 40px;
                             display: inline-block;
-                            margin: 15px 0;">
+                            margin: 15px 0; 
+                            padding-left: 0px; 
+                            padding-right: 0px;">
                     ${location}
                 </span>
             </span>`;
@@ -74,7 +77,7 @@ async function getEvent(eventNumber){
         titleElement.textContent = data["title"];
         
         var descriptionElement = eventElement.querySelector(".luho_event__description");
-        descriptionElement.textContent =`
+        descriptionElement.innerHTML =`
             ${intToString(data["start_time"]["hour"])}:${intToString(data["start_time"]["minute"])}
             ${"Uhr"}
             ${formatDescription(data["description"], speaker=data["speaker"], sermontext=data["sermontext"])}`;

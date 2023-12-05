@@ -28,10 +28,10 @@ class PollingService():
             logging.info('using connection details provided from secrets folder')
 
         self.api = ChurchToolsApi(domain=self.ct_domain, ct_token=self.ct_token)
-        logging.basicConfig(filename='../logs/TestsChurchToolsApi.log', encoding='utf-8',
-                            format="%(asctime)s %(name)-10s %(levelname)-8s %(message)s",
-                            level=logging.DEBUG)
-        logging.info("Executing Tests RUN")
+        
+        # On startup load all available services
+        with open("../custom-configuration/services.json", "w+") as services_file:
+            json.dump(self.api.get_services(), services_file, indent=4)
 
     
     def _extract_date(self, isoDateString: str) -> MyDate:
@@ -82,6 +82,62 @@ class PollingService():
             hour=result_date.hour,
             minute=result_date.minute)
 
+    def get_services(self) -> dict:
+        with open("../custom-configuration/services.json") as services_file:
+            try:
+                return json.load(services_file)
+            except: 
+                pass
+        return []
+    
+    def get_service_id_of(self, input_service_title: str) -> int:
+        input_service_title = input_service_title.lower().rstrip().lstrip()
+        for service in self.get_services():
+            service_title = service['name']
+            service_title = service_title.lower().rstrip().lstrip()
+            if input_service_title in service_title:
+                return service["id"]
+            if service_title in input_service_title:
+                return service["id"]
+        return -1
+    
+    def has_livestream(self, event_id: int):
+        potential_service_names = ["stream", "live", "übertragung"]
+        for service_name in potential_service_names:
+            service_name_id: int = self.get_service_id_of(service_name)
+            if service_name_id > -1:
+                service_count: int = self.api.get_event_services_counts_ajax(eventId=event_id, serviceId=service_name_id)[service_name_id]
+                if service_count > 0:
+                    return True
+        return False
+    
+    def has_childreenschurch(self, event_id: int):
+        potential_service_names = ["kinder", "kids"]
+        for service_name in potential_service_names:
+            service_name_id: int = self.get_service_id_of(service_name)
+            if service_name_id > -1:
+                service_count: int = self.api.get_event_services_counts_ajax(eventId=event_id, serviceId=service_name_id)[service_name_id]
+                if service_count > 0:
+                    return True
+        return False
+
+    def get_speaker(self, event_id: int):
+        event_data: dict = self.api.get_AllEventData_ajax(event_id)
+
+        potential_service_names = ["predigt", "referent", "speaker", "vortrag", "sprecher", "program", "liturgie", "moderation"]
+
+        for service_name in potential_service_names:
+            service_name_id: int = self.get_service_id_of(service_name)
+            if service_name_id > -1:
+                for service in event_data["services"]:
+                    service_id: int = int(service["service_id"])
+                    if service_id == service_name_id:
+                        if service["name"] is not None:
+                            return service["name"]
+        
+        return ""
+        
+
     def get_events(self, number_upcomming: int) -> [CalendarDate]:
         # load next event (limit)
         result = self.api.get_events(limit=number_upcomming, direction='forward')
@@ -90,6 +146,7 @@ class PollingService():
 
         for event in result:
             new_entry: CalendarDate = CalendarDate(
+                id=event["appointmentId"],
                 start_date=self._extract_date(event['startDate']),
                 start_time=self._extract_time(event['startDate']),
                 start_iso_datetime=event['startDate'],
@@ -100,41 +157,15 @@ class PollingService():
                 title=event['name'],
                 category=event['calendar']['title'],
                 is_event=True,
-                ################################################
-                ### TODO get the following information form Churchtools
-                ###################################
-                speaker="<speaker>",
-                sermontext="<sermomtext>",
-                has_childrenschurch=True,
-                has_livestream=True,
-                #####################################################
+                speaker=self.get_speaker(event_id=event["id"]),
+                sermontext="",
+                has_childrenschurch=self.has_childreenschurch(event_id=event["id"]),
+                has_livestream=self.has_livestream(event_id=event["id"]),
             )
             events.append(new_entry)
         
         return events
 
-        
-        '''
-        # load last event (direction, limit)
-        result = self.api.get_events(limit=1, direction='backward')
-        result_date = datetime.strptime(result[0]['startDate'], '%Y-%m-%dT%H:%M:%S%z').astimezone().date()
-
-        # Load events after 7 days (from)
-        next_week_date = today_date + timedelta(days=7)
-        next_week_formatted = next_week_date.strftime('%Y-%m-%d')
-        result = self.api.get_events(from_=next_week_formatted)
-        result_min_date = min([datetime.strptime(item['startDate'], '%Y-%m-%dT%H:%M:%S%z').astimezone().date() for item in result])
-        result_max_date = max([datetime.strptime(item['startDate'], '%Y-%m-%dT%H:%M:%S%z').astimezone().date() for item in result])
-        
-        # load events for next 14 days (to)
-        next2_week_date = today_date + timedelta(days=14)
-        next2_week_formatted = next2_week_date.strftime('%Y-%m-%d')
-        today_date_formatted = today_date.strftime('%Y-%m-%d')
-
-        result = self.api.get_events(from_=today_date_formatted, to_=next2_week_formatted)
-        result_min = min([datetime.strptime(item['startDate'], '%Y-%m-%dT%H:%M:%S%z').astimezone().date() for item in result])
-        result_max = max([datetime.strptime(item['startDate'], '%Y-%m-%dT%H:%M:%S%z').astimezone().date() for item in result])
-        '''
     
     def get_calendar_list(self) -> dict:
         """
@@ -163,6 +194,7 @@ class PollingService():
                 if description is None:
                     description = ""
                 newDate: CalendarDate = CalendarDate(
+                    id=date["id"],
                     start_date=self._extract_date(date['startDate']),
                     start_time=self._extract_time(date['startDate']),
                     start_iso_datetime=date['startDate'],
