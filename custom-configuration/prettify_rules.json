@@ -11,7 +11,16 @@
         {"titleSequence": ["got", "es", "dienst", "jung", "alt"], "replacement": "Gemeinsamer Gottesdienst"},
         {"titleSequence": ["jugend", "werk", "got", "es", "dienst"], "replacement": "Jugendwerksgottesdienst"},
         {"titleSequence": ["reformation", "go", "di"], "replacement": "Reformationsgottesdienst"},
-        {"titleSequence": ["luho", "pop", "go"], "replacement": "LuHo Pop'n Gospel"}
+        {"titleSequence": ["luho", "pop", "go"], "replacement": "LuHo Pop'n Gospel"},
+        {"titleSequence": ["alt", "jahr", "abend", "got", "es", "dienst"], "replacement": "Altjahr Abend Gottesdienst"},
+        {"titleSequence": ["heilig", "abend", "got", "es", "dienst"], "replacement": "Heiliger Abend Gottesdienst"},
+        {"titleSequence": ["heilig", "nacht", "got", "es", "dienst"], "replacement": "Heilige Nacht Gottesdienst"},
+        {"titleSequence": ["neu", "jahr", "got", "es", "dienst"], "replacement": "Neujahr Gottesdienst"},
+        {"titleSequence": ["oster", "got", "es", "dienst"], "replacement": "Oster Gottesdienst"},
+        {"titleSequence": ["oster", "montag", "got", "es", "dienst"], "replacement": "Ostermontag Gottesdienst"},
+        {"titleSequence": ["oster", "got", "es", "dienst", "neu"], "replacement": "Oster Gottesdienst für junge Erwachsene"},
+        {"titleSequence": ["oster","got", "es", "dienst", "young"], "replacement": "Oster Gottesdienst für junge Erwachsene"},
+        {"titleSequence": ["oster", "got", "es", "dienst", "jung"], "replacement": "Oster Gottesdienst für junge Erwachsene"}
     ],
     "descriptionRules":[
         {"titleSequence": ["got", "es", "dienst", "klass"], "replacement": ""},
@@ -21,7 +30,8 @@
         {"titleSequence": ["taufen"], "addition": "Mit Taufen"},
         {"descriptionSequence": ["mit", "taufen"], "addition": "Mit Taufen"},
         {"titleSequence": ["krabbel", "caf"], "replacement": "Der Treffpunkt für alle werdenden Eltern und Eltern mit Baby und Kleinkindern"},
-        {"titleSequence": ["krabbel", "kaf"], "replacement": "Der Treffpunkt für alle werdenden Eltern und Eltern mit Baby und Kleinkindern"}
+        {"titleSequence": ["krabbel", "kaf"], "replacement": "Der Treffpunkt für alle werdenden Eltern und Eltern mit Baby und Kleinkindern"},
+        {"titleSequence": ["jugend", "werk", "got", "es", "dienst"], "addition": "Gestaltet vom Jugendwerk"}
     ],
     "sermontextRules":[
         {"descriptionSequence": ["<biblicalBook>", "<#1>"], "replacement": ["<biblicalBook>", " <#1>"]},

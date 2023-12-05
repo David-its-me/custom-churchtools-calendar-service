@@ -287,12 +287,12 @@
                 ["sommer", "fest"],
                 ["geminde", "fest"],
                 ["sommer", "feier"],
-                ["gemeinde", "feier"]
+                ["gemeinde", "feier"],
+                ["konzert"]
             ],
             "excludeTitles":[
                 ["haus","kreis"],
                 ["konf","us"],
-                ["konf", "irmation"],
                 ["konf", "is"],
                 ["unterricht"],
                 ["band", "probe"],
@@ -300,13 +300,25 @@
                 ["test"],
                 ["kirch", "bau"],
                 ["bau","ausschuss"],
+                ["bau","auschus"],
                 ["bau", "verein"],
                 ["kirch", "bau"],
                 ["frei", "zeit"],
                 ["hoch", "zeit"],
                 ["intern"],
                 ["privat"],
-                ["private"]
+                ["private"],
+                ["ausschuss"],
+                ["auschus"],
+                ["smd"],
+                ["besuch", "dienst"],
+                ["chor", "probe"],
+                ["aufbau"],
+                ["abbau"],
+                ["sitzung"],
+                ["besprechung"],
+                ["kern","team"],
+                ["task", "force"]
             ]
         }
     },
