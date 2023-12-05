@@ -444,10 +444,9 @@ figure {
 
 .luho_event__location {
     align-self: flex-start;
-    padding: 0px 0px;
     font-size: 40px;
-    border-radius: 30px;
     display: inline-block;
-    margin: 15px 0;
-    
+    margin: 15px 0; 
+    padding-left: 0px; 
+    padding-right: 0px;    
 }

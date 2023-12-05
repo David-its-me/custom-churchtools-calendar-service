@@ -18,10 +18,7 @@ function formatDescription(description, speaker="", sermontext=""){
         description = description + " mit " + speaker;
     }
     if (sermontext != ""){
-        if (description != ""){
-            description = description + " - "
-        }
-        description = description + " Bibeltext: " + sermontext;
+        description = description + "<br/>Bibeltext: " + sermontext;
     }
     return description;
 }
@@ -37,9 +34,24 @@ var communionHTML = `<span class="luho_event__communion">
                         <img style="padding-top: 0px; padding-bottom: 0px; width:80px;height:80px;" src="../icons/communion.png" alt="mit Abendmahl">
                     </span>`
 
+function timeHTML(data){
+    return `<span>
+                <img style="padding: 5px; width:58px;height:58px;" src="../icons/clock.png" alt="Uhrzeit:">
+                <span>
+                    ${intToString(data["start_time"]["hour"])}:${intToString(data["start_time"]["minute"])} ${"Uhr"}
+                </span>
+            </span>`
+}
+
+function descriptionHTML(data){
+    return `<span>
+                ${formatDescription(data["description"], speaker=data["speaker"], sermontext=data["sermontext"])}
+            </span>`
+}
+
 function locationHTML(location="Location"){
-    return `<span class="luho_event__location">
-                <img style="padding-top: 15px; padding-bottom: 15px; width:50px;height:80px;" src="../icons/location.svg" alt="Ort:">
+    return `<span>
+                <img style="padding-left: 5px; width:50px;height:80px;" src="../icons/location.svg" alt="Ort:">
                 <span class="luho_event__location" style="
                             align-self: flex-start;
                             font-size: 40px;
@@ -77,24 +89,14 @@ async function getEvent(eventNumber){
         titleElement.textContent = data["title"];
         
         var descriptionElement = eventElement.querySelector(".luho_event__description");
-        descriptionElement.innerHTML =`
-            ${intToString(data["start_time"]["hour"])}:${intToString(data["start_time"]["minute"])}
-            ${"Uhr"}
-            ${formatDescription(data["description"], speaker=data["speaker"], sermontext=data["sermontext"])}`;
-
-        //var categoryElement = eventElement.querySelector(".luho_event__category");
-        //categoryElement.textContent = data["category"];
-        //categoryElement.style.setProperty('background-color', data["category_color"], 'important')
+        descriptionElement.innerHTML += timeHTML(data);
+        descriptionElement.innerHTML += descriptionHTML(data);
 
         var infoElement = eventElement.querySelector(".luho_event__info");
         // Set Category if there is information about the Category
         if (data["category"] != ""){
             infoElement.innerHTML += categoryHTML(data["category"], data["category_color"])
         }
-        
-        // TODO Sermontext
-
-        // TODO Speaker
 
         // Set Livestream Icon
         if (data["has_livestream"]){

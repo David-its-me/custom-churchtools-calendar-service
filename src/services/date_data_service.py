@@ -11,8 +11,12 @@ import copy
 class DateDataService():
 
     def __init__(self, polling_service: PollingService, calendar_manager: CalendarManager) -> None:
-        self.polling_service = polling_service
-        self.calendar_manager = calendar_manager
+        self.polling_service: PollingService = polling_service
+        self.calendar_manager: CalendarManager = calendar_manager
+        self.prettified_dates: [CalendarDate] = None
+        ####################################################################
+        self.cache_timeout_duration = 30 * 60 # 30 Minutes
+        ####################################################################
         pass
 
     def sort_dates(self, dates: [CalendarDate]) -> [CalendarDate]:
@@ -164,7 +168,7 @@ class DateDataService():
         return result
     
     @staticmethod
-    def _replace_rule_tags_in_sequences(match_sequence:[str], result_sequence: str |list) -> [{}]:
+    def _replace_rule_tags_in_sequences(match_sequence:[str], result_sequence: str |list, tag_definitions: dict) -> [{}]:
         result:[{}] = []
         i: int = 0
         tag_found: bool = False
@@ -175,30 +179,28 @@ class DateDataService():
                     variable_name: str = tag_value[1:]
                 else:
                     tag_found = True
-                    with open("../custom-configuration/prettify_rules_tag_definitions.json") as tag_definition_file:
-                        tag_definitions: dict = json.load(tag_definition_file)
-                        for tag_definition in tag_definitions:
-                            if tag_definition["tagName"] == tag_value:
-                                for tag_match in tag_definition["tagMatches"]:
-                                    # Handle a tag match
-                                    replaced_result_sequence = None
-                                    if isinstance(result_sequence, list):
-                                        replaced_result_sequence = []
-                                        replaced_result_sequence.extend(result_sequence)
-                                        for j in range(len(replaced_result_sequence)):
-                                            if replaced_result_sequence[j] == fragment:
-                                                replaced_result_sequence[j] = tag_match["value"]
-                                    elif isinstance(result_sequence, str):
-                                        replaced_result_sequence = result_sequence
-                                        if replaced_result_sequence == fragment:
-                                            replaced_result_sequence = tag_match["value"]
+                    for tag_definition in tag_definitions:
+                        if tag_definition["tagName"] == tag_value:
+                            for tag_match in tag_definition["tagMatches"]:
+                                # Handle a tag match
+                                replaced_result_sequence = None
+                                if isinstance(result_sequence, list):
+                                    replaced_result_sequence = []
+                                    replaced_result_sequence.extend(result_sequence)
+                                    for j in range(len(replaced_result_sequence)):
+                                        if replaced_result_sequence[j] == fragment:
+                                            replaced_result_sequence[j] = tag_match["value"]
+                                elif isinstance(result_sequence, str):
+                                    replaced_result_sequence = result_sequence
+                                    if replaced_result_sequence == fragment:
+                                        replaced_result_sequence = tag_match["value"]
 
-                                    for match in tag_match["match"]:
-                                        replaced_match_sequence: [str] = []
-                                        replaced_match_sequence.extend(match_sequence)
-                                        replaced_match_sequence[i] = match
-                                        ##### recursion step #####
-                                        result.extend(DateDataService._replace_rule_tags_in_sequences(replaced_match_sequence, replaced_result_sequence))
+                                for match in tag_match["match"]:
+                                    replaced_match_sequence: [str] = []
+                                    replaced_match_sequence.extend(match_sequence)
+                                    replaced_match_sequence[i] = match
+                                    ##### recursion step #####
+                                    result.extend(DateDataService._replace_rule_tags_in_sequences(replaced_match_sequence, replaced_result_sequence, tag_definitions=tag_definitions))
             i = i + 1
 
         if not tag_found:
@@ -208,10 +210,10 @@ class DateDataService():
         return result
     
     @staticmethod
-    def _tag_rule_with_given_sequences_names(rule: dict, match_sequence_name: str, result_sequence_name: str) -> [{}]:
+    def _tag_rule_with_given_sequences_names(rule: dict, match_sequence_name: str, result_sequence_name: str, tag_definitions: dict) -> [{}]:
         resulting_rules: [] = []
         if match_sequence_name in rule and result_sequence_name in rule:
-            for replaced_sequence in DateDataService._replace_rule_tags_in_sequences(match_sequence=rule[match_sequence_name], result_sequence=rule[result_sequence_name]):
+            for replaced_sequence in DateDataService._replace_rule_tags_in_sequences(match_sequence=rule[match_sequence_name], result_sequence=rule[result_sequence_name], tag_definitions=tag_definitions):
                 new_rule: dict = copy.deepcopy(rule)
                 new_rule[match_sequence_name] = replaced_sequence["matchSequence"]
                 new_rule[result_sequence_name] = replaced_sequence["resultSequence"]
@@ -219,41 +221,47 @@ class DateDataService():
         return resulting_rules
 
     @staticmethod
-    def _tag_rule_with_given_match_sequence_name(rule: dict, match_sequence_name: str) -> [{}]:
+    def _tag_rule_with_given_match_sequence_name(rule: dict, match_sequence_name: str, tag_definitions: dict) -> [{}]:
         resulting_rules: [] = []
         if "replacement" in rule:
             resulting_rules.extend(DateDataService._tag_rule_with_given_sequences_names(
                 rule=rule, 
                 match_sequence_name=match_sequence_name, 
-                result_sequence_name="replacement"))
+                result_sequence_name="replacement",
+                tag_definitions=tag_definitions))
         if "addition" in rule:
             resulting_rules.extend(DateDataService._tag_rule_with_given_sequences_names(
                 rule=rule, 
                 match_sequence_name=match_sequence_name, 
-                result_sequence_name="addition"))
+                result_sequence_name="addition",
+                tag_definitions=tag_definitions))
         if "value" in rule:
             resulting_rules.extend(DateDataService._tag_rule_with_given_sequences_names(
                 rule=rule, 
                 match_sequence_name=match_sequence_name, 
-                result_sequence_name="value"))
+                result_sequence_name="value",
+                tag_definitions=tag_definitions))
         return resulting_rules
 
 
     @staticmethod
-    def _tag_rule(rule: dict) -> [{}]:
+    def _tag_rule(rule: dict, tag_definitions: dict) -> [{}]:
         resulting_rules: [] = []
         if "titleSequence" in rule:
             resulting_rules.extend(DateDataService._tag_rule_with_given_match_sequence_name(
                 rule=rule, 
-                match_sequence_name="titleSequence"))
+                match_sequence_name="titleSequence",
+                tag_definitions=tag_definitions))
         if "descriptionSequence" in rule:
             resulting_rules.extend(DateDataService._tag_rule_with_given_match_sequence_name(
                 rule=rule, 
-                match_sequence_name="descriptionSequence"))
+                match_sequence_name="descriptionSequence",
+                tag_definitions=tag_definitions))
         if "categorySequence" in rule:
             resulting_rules.extend(DateDataService._tag_rule_with_given_match_sequence_name(
                 rule=rule, 
-                match_sequence_name="categorySequence"))
+                match_sequence_name="categorySequence",
+                tag_definitions=tag_definitions))
         return resulting_rules
 
 
@@ -275,49 +283,48 @@ class DateDataService():
         return value
 
     @staticmethod
-    def prettify_date(date: CalendarDate, rules: dict) -> CalendarDate:
+    def prettify_date(date: CalendarDate, rules: dict, tag_definitions: dict) -> CalendarDate:
         # Title rules
         title_after_processing: str = copy.deepcopy(date.title)
         if "titleRules" in rules:
             for rule in rules["titleRules"]:
-                for tagged_rule in DateDataService._tag_rule(rule=rule):
+                for tagged_rule in DateDataService._tag_rule(rule=rule, tag_definitions=tag_definitions):
                     title_after_processing = DateDataService._process_rule(title_after_processing, rule=tagged_rule, date=date)
         # Description Rules
         description_after_processing: str = copy.deepcopy(date.description)
         if "descriptionRules" in rules:
             for rule in rules["descriptionRules"]:
-                for tagged_rule in DateDataService._tag_rule(rule=rule):
+                for tagged_rule in DateDataService._tag_rule(rule=rule, tag_definitions=tag_definitions):
                     description_after_processing = DateDataService._process_rule(description_after_processing, rule=tagged_rule, date=date)
         # Sermontext Rules
         sermontext_after_processing: str = copy.deepcopy(date.sermontext)
         if "sermontextRules" in rules:
             for rule in rules["sermontextRules"]:
-                for tagged_rule in DateDataService._tag_rule(rule=rule):
+                for tagged_rule in DateDataService._tag_rule(rule=rule, tag_definitions=tag_definitions):
                     sermontext_after_processing = DateDataService._process_rule(sermontext_after_processing, rule=tagged_rule, date=date)
         # Location Rules
         location_after_processing: str = copy.deepcopy(date.location)
         if "locationRules" in rules:
             for rule in rules["locationRules"]:
-                for tagged_rule in DateDataService._tag_rule(rule=rule):
+                for tagged_rule in DateDataService._tag_rule(rule=rule, tag_definitions=tag_definitions):
                     location_after_processing = DateDataService._process_rule(location_after_processing, rule=tagged_rule, date=date)
         # Category Rules
         category_after_processing: str = copy.deepcopy(date.category)
         if "categoryRules" in rules:
             for rule in rules["categoryRules"]:
-                for tagged_rule in DateDataService._tag_rule(rule=rule):
+                for tagged_rule in DateDataService._tag_rule(rule=rule, tag_definitions=tag_definitions):
                     category_after_processing = DateDataService._process_rule(category_after_processing, rule=tagged_rule, date=date)
         # Category Color Rules
         category_color_after_processing: str = copy.deepcopy(date.category_color)
         if "categoryColorRules" in rules:
             for rule in rules["categoryColorRules"]:
-                for tagged_rule in DateDataService._tag_rule(rule=rule):
+                for tagged_rule in DateDataService._tag_rule(rule=rule, tag_definitions=tag_definitions):
                     category_color_after_processing = DateDataService._process_rule(category_color_after_processing, rule=tagged_rule, date=date)
-        
         # Communion Rules
         communion_after_processing: bool = copy.deepcopy(date.has_communion)
         if "hasCommunionRules" in rules:
             for rule in rules["hasCommunionRules"]:
-                for tagged_rule in DateDataService._tag_rule(rule=rule):
+                for tagged_rule in DateDataService._tag_rule(rule=rule, tag_definitions=tag_definitions):
                     communion_after_processing = DateDataService._process_rule(communion_after_processing, rule=tagged_rule, date=date)
 
         
@@ -333,31 +340,44 @@ class DateDataService():
         return date
     
     def prettify_dates(self, dates: [CalendarDate]) -> [CalendarDate]:
+        tag_definitions: dict = []
+        with open("../custom-configuration/prettify_rules_tag_definitions.json") as tag_definition_file:
+            tag_definitions = json.load(tag_definition_file)
 
         with open("../custom-configuration/prettify_rules.json") as file:
             rules: dict = json.load(file)
             for date in dates:
-                date = DateDataService.prettify_date(date, rules=rules)
+                date = DateDataService.prettify_date(date, rules=rules, tag_definitions=tag_definitions)
 
         return dates
 
+    def reset_cache_timeout(self):
+        self.last_updated = datetime.now()
+
+    def is_cache_dirty(self) -> bool:
+        if self.prettified_dates is None:
+            return True
+        if self.last_updated + timedelta(seconds=self.cache_timeout_duration) > datetime.now():
+            return False
+        return True
+
 
     def get_upcomming_date(self, number_upcomming) -> [CalendarDate]:
-        # TODO this is not efficient to caculate everthing from the beginning for each entry.
-        # TODO use caching to make this more efficient. E.g. for day 6 the whole list until day 6 is prepared
-        dates: [CalendarDate] = self.polling_service.get_events(number_upcomming)
-        tomorrow = datetime.now() + timedelta(days=1)
-        two_weeks = tomorrow + timedelta(days=14)
-        date_string_tomorrow: str = tomorrow.strftime('%Y-%m-%d')
-        date_string_two_weeks: str = two_weeks.strftime('%Y-%m-%d')
-        dates.extend(self.polling_service.get_calendar_dates(
-            from_=date_string_tomorrow, 
-            to_=date_string_two_weeks,
-            calendar_ids=self.calendar_manager.get_visible_calendar_ids()))
+        if self.is_cache_dirty() or number_upcomming * 1.5 > len(self.prettified_dates):
+            dates: [CalendarDate] = self.polling_service.get_events(number_upcomming)
+            tomorrow = datetime.now() + timedelta(days=1)
+            two_weeks = tomorrow + timedelta(days=14)
+            date_string_tomorrow: str = tomorrow.strftime('%Y-%m-%d')
+            date_string_two_weeks: str = two_weeks.strftime('%Y-%m-%d')
+            dates.extend(self.polling_service.get_calendar_dates(
+                from_=date_string_tomorrow, 
+                to_=date_string_two_weeks,
+                calendar_ids=self.calendar_manager.get_visible_calendar_ids()))
+            
+            sorted_dates: [CalendarDate] = self.sort_dates(dates)
+            merged_dates: [CalendarDate] = self.merge_dates(sorted_dates)
+            filtered_dates: [CalendarDate] = self.filter_dates(merged_dates)
+            self.prettified_dates = self.prettify_dates(filtered_dates)
+            self.reset_cache_timeout()
         
-        sorted_dates: [CalendarDate] = self.sort_dates(dates)
-        merged_dates: [CalendarDate] = self.merge_dates(sorted_dates)
-        filtered_dates: [CalendarDate] = self.filter_dates(merged_dates)
-        prettified_dates: [CalendarDate] = self.prettify_dates(filtered_dates)
-        
-        return prettified_dates[number_upcomming - 1].to_dictionary()
+        return self.prettified_dates[number_upcomming - 1].to_dictionary()

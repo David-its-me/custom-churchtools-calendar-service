@@ -24,21 +24,20 @@
         {"titleSequence": ["krabbel", "kaf"], "replacement": "Der Treffpunkt für alle werdenden Eltern und Eltern mit Baby und Kleinkindern"}
     ],
     "sermontextRules":[
-        {"descriptionSequence": ["<biblicalBook>"], "replacement": ["Test Buch"]},
         {"descriptionSequence": ["<biblicalBook>", "<#1>"], "replacement": ["<biblicalBook>", " <#1>"]},
-        {"descriptionSequence": ["<biblicalBook>", "<#1>", "," , "<#2>"], "replacement": ["<biblicalBook>", " <#1>", "," , " <#2>"]},
-        {"descriptionSequence": ["<biblicalBook>", "<#1>", "," , "<#2>" , "-", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", "," , " <#2>" , " - ", "<#3>"]},
-        {"descriptionSequence": ["<biblicalBook>", "<#1>", "," , "<#2>" , "+", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", "," , " <#2>" , " + ", "<#3>"]},
+        {"descriptionSequence": ["<biblicalBook>", "<#1>", "," , "<#2>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>"]},
+        {"descriptionSequence": ["<biblicalBook>", "<#1>", "," , "<#2>" , "-", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>" , " - ", "<#3>"]},
+        {"descriptionSequence": ["<biblicalBook>", "<#1>", "," , "<#2>" , "+", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>" , " + ", "<#3>"]},
         {"descriptionSequence": ["<biblicalBook>", "<#1>", ":" , "<#2>"], "replacement": ["<biblicalBook>", " <#1>", "," , " <#2>"]},
-        {"descriptionSequence": ["<biblicalBook>", "<#1>", ":" , "<#2>" , "-", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", "," , " <#2>" , " - ", "<#3>"]},
-        {"descriptionSequence": ["<biblicalBook>", "<#1>", ":" , "<#2>" , "+", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", "," , " <#2>" , " + ", "<#3>"]},
+        {"descriptionSequence": ["<biblicalBook>", "<#1>", ":" , "<#2>" , "-", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>" , " - ", "<#3>"]},
+        {"descriptionSequence": ["<biblicalBook>", "<#1>", ":" , "<#2>" , "+", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>" , " + ", "<#3>"]},
         {"titleSequence": ["<biblicalBook>", "<#>"], "replacement": ["<biblicalBook>", " <#>"]},
-        {"titleSequence": ["<biblicalBook>", "<#1>", "," , "<#2>"], "replacement": ["<biblicalBook>", " <#1>", "," , " <#2>"]},
-        {"titleSequence": ["<biblicalBook>", "<#1>", "," , "<#2>" , "-", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", "," , " <#2>" , " - ", "<#3>"]},
-        {"titleSequence": ["<biblicalBook>", "<#1>", "," , "<#2>" , "+", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", "," , " <#2>" , " + ", "<#3>"]},
-        {"titleSequence": ["<biblicalBook>", "<#1>", ":" , "<#2>"], "replacement": ["<biblicalBook>", " <#1>", "," , " <#2>"]},
-        {"titleSequence": ["<biblicalBook>", "<#1>", ":" , "<#2>" , "-", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", "," , " <#2>" , " - ", "<#3>"]},
-        {"titleSequence": ["<biblicalBook>", "<#1>", ":" , "<#2>" , "+", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", "," , " <#2>" , " + ", "<#3>"]}
+        {"titleSequence": ["<biblicalBook>", "<#1>", "," , "<#2>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>"]},
+        {"titleSequence": ["<biblicalBook>", "<#1>", "," , "<#2>" , "-", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>" , " - ", "<#3>"]},
+        {"titleSequence": ["<biblicalBook>", "<#1>", "," , "<#2>" , "+", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>" , " + ", "<#3>"]},
+        {"titleSequence": ["<biblicalBook>", "<#1>", ":" , "<#2>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>"]},
+        {"titleSequence": ["<biblicalBook>", "<#1>", ":" , "<#2>" , "-", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>" , " - ", "<#3>"]},
+        {"titleSequence": ["<biblicalBook>", "<#1>", ":" , "<#2>" , "+", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>" , " + ", "<#3>"]}
     ],
     "locationRules":[
         {"titleSequence": ["godi"], "replacement": "Kirche"},

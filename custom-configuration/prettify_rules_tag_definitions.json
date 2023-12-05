@@ -67,7 +67,7 @@
             {"match":["1. johannes", "2.johannes", "2. johanes", "2.johanes", "2. joh", "2.joh"], "value": "2. Johannes", "enableLevinshtein": false},
             {"match":["1. johannes", "3.johannes", "3. johanes", "3.johanes", "3. joh", "3.joh"], "value": "3. Johannes", "enableLevinshtein": false},
             {"match":["judas"], "value": "Judas","enableLevinshtein": true},
-            {"match":["offenbarung", "ofenbarung"], "value": "Offenbarung","enableLevinshtein": true}
+            {"match":["offenbarung", "ofenbarung", "offb"], "value": "Offenbarung","enableLevinshtein": true}
         ]
     }
 ]
