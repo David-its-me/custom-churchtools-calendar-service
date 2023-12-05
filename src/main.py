@@ -21,6 +21,10 @@ async def startup_event() -> None:
 def read_root():
     return read_static_content(asset_type="html", path="main.html")
 
+@app.get("/slide/upcommingEvents/{slideCount}")
+def read_root():
+    return read_static_content(asset_type="html", path="main.html")
+
 @app.get("/static/{asset_type}/{path}")
 def read_static_content(asset_type: str, path: str):
     return FileResponse("../static/{}/{}".format(asset_type, path))

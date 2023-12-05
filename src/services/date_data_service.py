@@ -364,7 +364,11 @@ class DateDataService():
 
     def get_upcomming_date(self, number_upcomming) -> [CalendarDate]:
         if self.is_cache_dirty() or number_upcomming * 1.5 > len(self.prettified_dates):
-            dates: [CalendarDate] = self.polling_service.get_events(number_upcomming)
+            dates: [CalendarDate] = []
+            if number_upcomming < 12:
+                dates = self.polling_service.get_events(12)
+            else:
+                dates = self.polling_service.get_events(number_upcomming)
             tomorrow = datetime.now() + timedelta(days=1)
             two_weeks = tomorrow + timedelta(days=14)
             date_string_tomorrow: str = tomorrow.strftime('%Y-%m-%d')

@@ -24,19 +24,19 @@ function formatDescription(description, speaker="", sermontext=""){
 }
 
 var livestreamHTML =    `<span class="luho_event__livestream">
-                            <img style="padding: 0px; width:80px;height:80px;" src="../icons/livestream.png" alt="Uhr">
+                            <img style="padding: 0px; width:80px;height:80px;" src="../../../icons/livestream.png" alt="Uhr">
                         </span>`;
 var childrenchurchHTML =    `<span class="luho_event__childrenchurch">
-                                <img style="padding-top: 0px; padding-bottom: 0px; width:80px;height:80px;" src="../icons/children.png" alt="mit Kinderkirche">
+                                <img style="padding-top: 0px; padding-bottom: 0px; width:80px;height:80px;" src="../../../icons/children.png" alt="mit Kinderkirche">
                             </span>`;
 
 var communionHTML = `<span class="luho_event__communion">
-                        <img style="padding-top: 0px; padding-bottom: 0px; width:80px;height:80px;" src="../icons/communion.png" alt="mit Abendmahl">
+                        <img style="padding-top: 0px; padding-bottom: 0px; width:80px;height:80px;" src="../../../icons/communion.png" alt="mit Abendmahl">
                     </span>`
 
 function timeHTML(data){
     return `<span>
-                <img style="padding: 5px; width:58px;height:58px;" src="../icons/clock.png" alt="Uhrzeit:">
+                <img style="padding: 5px; width:58px;height:58px;" src="../../../icons/clock.png" alt="Uhrzeit:">
                 <span>
                     ${intToString(data["start_time"]["hour"])}:${intToString(data["start_time"]["minute"])} ${"Uhr"}
                 </span>
@@ -51,7 +51,7 @@ function descriptionHTML(data){
 
 function locationHTML(location="Location"){
     return `<span>
-                <img style="padding-left: 5px; width:50px;height:80px;" src="../icons/location.svg" alt="Ort:">
+                <img style="padding-left: 5px; width:50px;height:80px;" src="../../../icons/location.svg" alt="Ort:">
                 <span class="luho_event__location" style="
                             align-self: flex-start;
                             font-size: 40px;
@@ -75,8 +75,25 @@ function categoryHTML(category="Kategorie", backgroundColor="#0560ab"){
 
 
 async function getEvent(eventNumber){
-    const result = await fetch(`/date/upcomming/${eventNumber}`);
+    var pathArray = window.location.pathname.split('/');
+    var offset = 0
+    console.log(pathArray)
+    if (pathArray.length >= 3){
+        if (pathArray[0] == "slide" && pathArray[1] == "upcommingEvents"){
+            offset = 3 * (parseInt(pathArray[2]) - 1)
+        }
+    }
+    if (pathArray.length >= 4){
+        if (pathArray[1] == "slide" && pathArray[2] == "upcommingEvents"){
+            offset = 3 * (parseInt(pathArray[3]) - 1)
+        }
+    }
+    if (offset < 0){
+        offset = 0
+    }
+    const result = await fetch(`/date/upcomming/${eventNumber + offset}`);
     result.json().then(data => {
+
         var eventElement = document.getElementById(`${eventNumber}`);
         
         var dayElement = eventElement.querySelector('.luho_event__day');
@@ -125,13 +142,4 @@ async function getEvent(eventNumber){
 getEvent(1)
 getEvent(2)
 getEvent(3)
-getEvent(4)
-getEvent(5)
-getEvent(6)
-getEvent(7)
-getEvent(8)
-getEvent(9)
-getEvent(10)
-getEvent(11)
-getEvent(12)
 
