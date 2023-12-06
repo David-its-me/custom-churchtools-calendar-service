@@ -78,7 +78,8 @@ class CalendarManager:
                                 break
             
             json.dump(local_calendar_data, settings_file, indent=4)
-            return local_calendar_data
+        
+        return local_calendar_data
 
 
         

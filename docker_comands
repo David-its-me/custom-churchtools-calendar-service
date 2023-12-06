@@ -1,5 +1,6 @@
 docker build -t <tag> .
 docker run -p 80:80 <tag>
+docker run -d --restart always -p 80:80 <tag>
 
             -p 80:80 open a Port, to make the container accessible
             -d --name <name> -> run container in the background

@@ -1,7 +1,8 @@
 import os
 import time
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
+import pytz
 import json
 from churchtools_api.churchtools_api import ChurchToolsApi
 from repository_classes.calendar_date import CalendarDate
@@ -76,11 +77,11 @@ class PollingService():
         return result
     
     def _extract_time(self, isoDateString: str) -> MyTime:
-        today_date = datetime.today().date()
-        result_date = datetime.strptime(isoDateString, '%Y-%m-%dT%H:%M:%S%z').astimezone()
+        result_time = datetime.strptime(isoDateString, '%Y-%m-%dT%H:%M:%S%z').astimezone(tz=timezone.utc)
+        local_time = result_time.astimezone(pytz.timezone('Europe/Madrid'))
         return MyTime(
-            hour=result_date.hour,
-            minute=result_date.minute)
+            hour=local_time.hour,
+            minute=local_time.minute)
 
     def get_services(self) -> dict:
         with open("../custom-configuration/services.json") as services_file:

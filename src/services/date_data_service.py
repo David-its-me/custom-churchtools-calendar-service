@@ -1,5 +1,6 @@
 
 from datetime import datetime, timedelta
+import time
 import json
 from repository_classes.calendar_date import CalendarDate
 from services.calendar_manager import CalendarManager
@@ -15,9 +16,8 @@ class DateDataService():
         self.calendar_manager: CalendarManager = calendar_manager
         self.prettified_dates: [CalendarDate] = None
         ####################################################################
-        self.cache_timeout_duration = 30 * 60 # 30 Minutes
+        self.cache_timeout_duration = 60 * 60 # 1 hour
         ####################################################################
-        pass
 
     def sort_dates(self, dates: [CalendarDate]) -> [CalendarDate]:
         sorted_dates: [CalendarDate] = sorted(dates, key=cmp_to_key(lambda date1, date2: date2.is_start_before(date1)))
@@ -124,8 +124,8 @@ class DateDataService():
                         if match:
                             included = False
                             break
-
-            else: # if no rules are specified, then keep the date in the list per default
+            
+            else: # if no rules are specified, then keep the date in the list per default -> optimistic
                 included = True
             
             if included:
@@ -363,25 +363,62 @@ class DateDataService():
 
 
     def get_upcomming_date(self, number_upcomming) -> [CalendarDate]:
-        if self.is_cache_dirty() or number_upcomming * 1.5 > len(self.prettified_dates):
+        if number_upcomming <= 0:
+            number_upcomming = 1
+        if self.is_cache_dirty() or number_upcomming > len(self.prettified_dates):
             dates: [CalendarDate] = []
+
+            # Events
+            duration_event_polling = time.time()
             if number_upcomming < 12:
                 dates = self.polling_service.get_events(12)
             else:
                 dates = self.polling_service.get_events(number_upcomming)
-            tomorrow = datetime.now() + timedelta(days=1)
-            two_weeks = tomorrow + timedelta(days=14)
-            date_string_tomorrow: str = tomorrow.strftime('%Y-%m-%d')
+            duration_event_polling = time.time() - duration_event_polling
+
+            # Calendar dates - after 2 weeks only show the events
+            duration_date_polling = time.time()
+            today = datetime.now() + timedelta(days=0)
+            two_weeks = today + timedelta(days=14)
+            date_string_tomorrow: str = today.strftime('%Y-%m-%d')
             date_string_two_weeks: str = two_weeks.strftime('%Y-%m-%d')
             dates.extend(self.polling_service.get_calendar_dates(
                 from_=date_string_tomorrow, 
                 to_=date_string_two_weeks,
                 calendar_ids=self.calendar_manager.get_visible_calendar_ids()))
+            duration_date_polling = time.time() - duration_date_polling
             
+            # Sorting dates
+            duration_sorting = time.time()
             sorted_dates: [CalendarDate] = self.sort_dates(dates)
+            duration_sorting = time.time() - duration_sorting
+
+            # Merging
+            duration_merging = time.time()
             merged_dates: [CalendarDate] = self.merge_dates(sorted_dates)
+            duration_merging = time.time() - duration_merging
+
+            # Filtering
+            duration_filtering = time.time()
             filtered_dates: [CalendarDate] = self.filter_dates(merged_dates)
+            duration_filtering = time.time() - duration_filtering
+
+            # Prettify dates
+            duration_prettify = time.time()
             self.prettified_dates = self.prettify_dates(filtered_dates)
+            duration_prettify = time.time() - duration_prettify
+
             self.reset_cache_timeout()
+            with open("../logs/time-measure.json", "w+") as time_measure_file:
+                json.dump({
+                    "eventPolling": duration_event_polling,
+                    "datePolling": duration_date_polling,
+                    "sorting": duration_sorting,
+                    "merging": duration_merging,
+                    "filtering": duration_filtering,
+                    "prettify": duration_prettify
+                }, time_measure_file, indent=4)
+
+
         
         return self.prettified_dates[number_upcomming - 1].to_dictionary()
