@@ -45,6 +45,8 @@ class PollingService():
 
     @staticmethod
     def _resolve_address_to_string(address: dict, note: str="") -> str:
+        if note is None:
+            note = ""
         note.lstrip().rstrip()
         if address is None:
             return note
