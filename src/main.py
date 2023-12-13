@@ -15,8 +15,11 @@ date_service: DateDataService = DateDataService(polling_service, calendar_manage
 @app.on_event("startup")
 async def startup_event() -> None:
     """tasks to do at server startup"""
-    # Poll once in the beginning, which takes a bit longer. After that the values are cached for 5 hours
-    date_service.get_upcomming_date(0) 
+    # Poll once in the beginning, which takes a bit longer. After that the values are cached for 1 hours
+    try: # If a problem occours the try catch clause ensures, that the whole server is still able to start.
+        date_service.get_upcomming_date(0) 
+    except:
+        pass
     
 
 @app.get("/")
