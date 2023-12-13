@@ -491,5 +491,23 @@
                 ["invisible"]
             ]
         }
+    },
+    {
+        "id": 48,
+        "name": "Kirche",
+        "nameTranslated": "Kirche",
+        "sortKey": 0,
+        "color": "#00ffff",
+        "isPublic": true,
+        "isPrivate": false,
+        "randomUrl": "sPDz7RtQrVjI6ZQKQpAmlZCAJeDAZZHm",
+        "iCalSourceUrl": "",
+        "campusId": null,
+        "eventTemplateId": null,
+        "meta": {
+            "modifiedDate": "2023-12-11T07:57:36Z",
+            "modifiedPid": 53
+        },
+        "visible": false
     }
 ]
