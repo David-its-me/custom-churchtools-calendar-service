@@ -40,7 +40,6 @@
         {"descriptionSequence": ["<biblicalBook>", "<#1>", ":" , "<#2>"], "replacement": ["<biblicalBook>", " <#1>", "," , " <#2>"]},
         {"descriptionSequence": ["<biblicalBook>", "<#1>", ":" , "<#2>" , "-", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>" , " - ", "<#3>"]},
         {"descriptionSequence": ["<biblicalBook>", "<#1>", ":" , "<#2>" , "+", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>" , " + ", "<#3>"]},
-        {"titleSequence": ["<biblicalBook>", "<#>"], "replacement": ["<biblicalBook>", " <#>"]},
         {"titleSequence": ["<biblicalBook>", "<#1>", "," , "<#2>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>"]},
         {"titleSequence": ["<biblicalBook>", "<#1>", "," , "<#2>" , "-", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>" , " - ", "<#3>"]},
         {"titleSequence": ["<biblicalBook>", "<#1>", "," , "<#2>" , "+", "<#3>"], "replacement": ["<biblicalBook>", " <#1>", ", " , " <#2>" , " + ", "<#3>"]},

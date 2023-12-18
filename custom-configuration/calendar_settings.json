@@ -310,6 +310,8 @@
                 ["private"],
                 ["ausschuss"],
                 ["auschus"],
+                ["auschuß"],
+                ["ausschuß"],
                 ["smd"],
                 ["besuch", "dienst"],
                 ["chor", "probe"],
