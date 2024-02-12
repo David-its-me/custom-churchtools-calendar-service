@@ -104,24 +104,30 @@ class PollingService():
                 return service["id"]
         return -1
     
-    def has_livestream(self, event_id: int):
+    def has_livestream(self, event_id: int) -> bool:
         potential_service_names = ["stream", "live", "übertragung"]
         for service_name in potential_service_names:
             service_name_id: int = self.get_service_id_of(service_name)
             if service_name_id > -1:
-                service_count: int = self.api.get_event_services_counts_ajax(eventId=event_id, serviceId=service_name_id)[service_name_id]
-                if service_count > 0:
-                    return True
+                try:
+                    service_count: int = self.api.get_event_services_counts_ajax(eventId=event_id, serviceId=service_name_id)[service_name_id]
+                    if service_count > 0:
+                        return True
+                except:
+                    pass
         return False
     
-    def has_childreenschurch(self, event_id: int):
+    def has_childreenschurch(self, event_id: int) -> bool:
         potential_service_names = ["kinder", "kids"]
         for service_name in potential_service_names:
             service_name_id: int = self.get_service_id_of(service_name)
             if service_name_id > -1:
-                service_count: int = self.api.get_event_services_counts_ajax(eventId=event_id, serviceId=service_name_id)[service_name_id]
-                if service_count > 0:
-                    return True
+                try:
+                    service_count: int = self.api.get_event_services_counts_ajax(eventId=event_id, serviceId=service_name_id)[service_name_id]
+                    if service_count > 0:
+                        return True
+                except:
+                    pass
         return False
 
     def get_speaker(self, event_id: int):

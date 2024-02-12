@@ -64,6 +64,8 @@ class DateDataService():
     @staticmethod
     def _match_sequence(text: str, sequence: [str]) -> (bool, {}):
         text_copy: str = copy.deepcopy(text) # because the text is manipulated
+        if text_copy is None:
+            text_copy = ""
         resulting_variable_matching = {}
         last_variable_name: str = None
         for fragment in sequence:

@@ -212,7 +212,8 @@
                 ["privat"],
                 ["private"],
                 ["hidden"],
-                ["invisible"]
+                ["invisible"],
+                ["hochzeit"]
             ]
         }
     },
@@ -320,7 +321,8 @@
                 ["sitzung"],
                 ["besprechung"],
                 ["kern","team"],
-                ["task", "force"]
+                ["task", "force"],
+                ["hochzeit"]
             ]
         }
     },

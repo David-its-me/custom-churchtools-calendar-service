@@ -57,12 +57,14 @@
         {"titleSequence": ["luho", "pop", "go"], "replacement": "Musik"},
         {"titleSequence": ["bibel", "abend"], "replacement": "Bibelstudienabend"},
         {"titleSequence": ["bibel", "stud"], "replacement": "Bibelstudienabend"},
-        {"titleSequence": ["stud", "abend"], "replacement": "Bibelstudienabend"}
+        {"titleSequence": ["stud", "abend"], "replacement": "Bibelstudienabend"},
+        {"titleSequence": ["passion"], "replacement": "Passionsbibelwoche"}
     ],
     "categoryColorRules":[
         {"titleSequence": ["bibel", "abend"], "replacement": "#cea01a"},
         {"titleSequence": ["bibel", "stud"], "replacement": "#cea01a"},
-        {"titleSequence": ["stud", "abend"], "replacement": "#cea01a"}
+        {"titleSequence": ["stud", "abend"], "replacement": "#cea01a"},
+        {"titleSequence": ["passion"], "replacement": "#89039e"}
     ],
     "hasLivestreamRules":[],
     "hasChildrenschurchRules":[],
