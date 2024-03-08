@@ -136,13 +136,19 @@ class PollingService():
         potential_service_names = ["predigt", "referent", "speaker", "vortrag", "sprecher", "program", "liturgie", "moderation"]
 
         for service_name in potential_service_names:
-            service_name_id: int = self.get_service_id_of(service_name)
-            if service_name_id > -1:
-                for service in event_data["services"]:
-                    service_id: int = int(service["service_id"])
-                    if service_id == service_name_id:
-                        if service["name"] is not None:
-                            return service["name"]
+            try:
+                service_name_id: int = self.get_service_id_of(service_name)
+                if service_name_id > -1:
+                    if "services" in event_data:
+                        if event_data["services"] is not None:
+                            for service in event_data["services"]:
+                                service_id: int = int(service["service_id"])
+                                if service_id == service_name_id:
+                                    if "name" in service:
+                                        if service["name"] is not None:
+                                            return service["name"]
+            except:
+                pass
         
         return ""
         
